@@ -1,75 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Marketing Website</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-header { background: #1e3a8a; color: white; padding: 20px; text-align: center; }
-nav a { color: white; margin: 0 12px; text-decoration: none; }
-.hero { background: #3b82f6; color: white; text-align: center; padding: 100px 20px; }
-.hero h1 { font-size: 2.5rem; margin-bottom: 15px; }
-.button { display: inline-block; background: #f59e0b; color: white; padding: 14px 28px; border-radius: 6px; text-decoration: none; margin-top: 20px; }
-section { padding: 60px 20px; max-width: 1000px; margin: auto; text-align: center; }
-.features { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
-.card { background: #f3f4f6; padding: 25px; border-radius: 8px; flex: 1; min-width: 250px; }
-form { display: flex; flex-direction: column; gap: 12px; max-width: 400px; margin: 20px auto; }
-input, textarea { padding: 12px; border: 1px solid #ccc; border-radius: 6px; }
-button { background: #1e3a8a; color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; }
-footer { background: #111827; color: white; text-align: center; padding: 20px; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Marketing Website</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; overflow-x: hidden; }
+    header { background: #1e3a8a; color: white; padding: 20px; text-align: center; }
+    nav a { color: white; margin: 0 12px; text-decoration: none; }
+    .hero { background: #3b82f6; color: white; text-align: center; padding: 100px 20px; overflow: hidden; }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 15px; }
+    .button { display: inline-block; background: #f59e0b; color: white; padding: 14px 28px; border-radius: 6px; text-decoration: none; margin-top: 20px; transition: transform 0.3s; }
+    .button:hover { transform: scale(1.08); }
+    section { padding: 60px 20px; max-width: 1000px; margin: auto; text-align: center; overflow: hidden; }
+    .features { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
+    .card { background: #f3f4f6; padding: 25px; border-radius: 8px; flex: 1; min-width: 250px; transition: transform 0.3s, box-shadow 0.3s; }
+    .card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+    form { display: flex; flex-direction: column; gap: 12px; max-width: 400px; margin: 20px auto; }
+    input, textarea { padding: 12px; border: 1px solid #ccc; border-radius: 6px; }
+    button { background: #1e3a8a; color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; }
+    footer { background: #111827; color: white; text-align: center; padding: 20px; }
+
+    /* Animation on page load: slide in from the right */
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(120px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .hero h1 { animation: slideInRight 1s ease-out; }
+    .hero p { animation: slideInRight 1.2s ease-out; }
+    .hero .button { animation: slideInRight 1.4s ease-out; }
+
+    /* Scroll animations: hidden at first, then slide into place */
+    .reveal-right, .reveal-left {
+      opacity: 0;
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal-right { transform: translateX(120px); }
+    .reveal-left { transform: translateX(-120px); }
+    .reveal-right.visible, .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Stagger the cards so they arrive one after another */
+    .card:nth-child(2) { transition-delay: 0.2s; }
+    .card:nth-child(3) { transition-delay: 0.4s; }
+  </style>
 </head>
 <body>
 
-<header>
-<h2>My Brand</h2>
-<nav>
-<a href="#home">Home</a>
-<a href="#features">Features</a>
-<a href="#contact">Contact</a>
-</nav>
-</header>
+  <header>
+    <h2>My Brand</h2>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-<div class="hero" id="home">
-<h1>Grow Your Business Today</h1>
-<p>We help you reach more customers and boost your sales.</p>
-<a href="#contact" class="button">Get Started</a>
-</div>
+  <div class="hero" id="home">
+    <h1>Grow Your Business Today</h1>
+    <p>We help you reach more customers and boost your sales.</p>
+    <a href="#contact" class="button">Get Started</a>
+  </div>
 
-<section id="features">
-<h2>Why Choose Us</h2>
-<div class="features">
-<div class="card">
-<h3>Fast Results</h3>
-<p>See real growth in just a few weeks.</p>
-</div>
-<div class="card">
-<h3>Expert Team</h3>
-<p>Experienced marketers on your side.</p>
-</div>
-<div class="card">
-<h3>Affordable</h3>
-<p>Plans that fit any budget.</p>
-</div>
-</div>
-</section>
+  <section id="features">
+    <h2 class="reveal-left">Why Choose Us</h2>
+    <div class="features">
+      <div class="card reveal-right">
+        <h3>Fast Results</h3>
+        <p>See real growth in just a few weeks.</p>
+      </div>
+      <div class="card reveal-right">
+        <h3>Expert Team</h3>
+        <p>Experienced marketers on your side.</p>
+      </div>
+      <div class="card reveal-right">
+        <h3>Affordable</h3>
+        <p>Plans that fit any budget.</p>
+      </div>
+    </div>
+  </section>
 
-<section id="contact">
-<h2>Contact Us</h2>
-<form>
-<input type="text" placeholder="Your name" required>
-<input type="email" placeholder="Your email" required>
-<textarea rows="4" placeholder="Your message"></textarea>
-<button type="submit">Send Message</button>
-</form>
-</section>
+  <section id="contact">
+    <h2 class="reveal-left">Contact Us</h2>
+    <form class="reveal-right">
+      <input type="text" placeholder="Your name" required>
+      <input type="email" placeholder="Your email" required>
+      <textarea rows="4" placeholder="Your message"></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
 
-<footer>
-<p>&copy; 2026 My Brand. All rights reserved.</p>
-</footer>
+  <footer>
+    <p>&copy; 2026 My Brand. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Watch for elements entering the screen, then slide them in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll(".reveal-right, .reveal-left").forEach((el) => {
+      observer.observe(el);
+    });
+  </script>
 
 </body>
 </html>
-```
