@@ -1,117 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Marketing Website</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; overflow-x: hidden; }
-    header { background: #1e3a8a; color: white; padding: 20px; text-align: center; }
-    nav a { color: white; margin: 0 12px; text-decoration: none; }
-    .hero { background: #3b82f6; color: white; text-align: center; padding: 100px 20px; overflow: hidden; }
-    .hero h1 { font-size: 2.5rem; margin-bottom: 15px; }
-    .button { display: inline-block; background: #f59e0b; color: white; padding: 14px 28px; border-radius: 6px; text-decoration: none; margin-top: 20px; transition: transform 0.3s; }
-    .button:hover { transform: scale(1.08); }
-    section { padding: 60px 20px; max-width: 1000px; margin: auto; text-align: center; overflow: hidden; }
-    .features { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
-    .card { background: #f3f4f6; padding: 25px; border-radius: 8px; flex: 1; min-width: 250px; transition: transform 0.3s, box-shadow 0.3s; }
-    .card:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-    form { display: flex; flex-direction: column; gap: 12px; max-width: 400px; margin: 20px auto; }
-    input, textarea { padding: 12px; border: 1px solid #ccc; border-radius: 6px; }
-    button { background: #1e3a8a; color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; }
-    footer { background: #111827; color: white; text-align: center; padding: 20px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Climbers | Digital Marketing Agency</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+font-family: -apple-system, "SF Pro Display", "Segoe UI", Arial, sans-serif;
+line-height: 1.6;
+color: #fff;
+overflow-x: hidden;
+background: linear-gradient(135deg, #1e3a8a, #7c3aed, #ec4899, #f59e0b);
+background-size: 400% 400%;
+animation: gradientShift 18s ease infinite;
+min-height: 100vh;
+}
+@keyframes gradientShift {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
+}
 
-    /* Animation on page load: slide in from the right */
-    @keyframes slideInRight {
-      from { opacity: 0; transform: translateX(120px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    .hero h1 { animation: slideInRight 1s ease-out; }
-    .hero p { animation: slideInRight 1.2s ease-out; }
-    .hero .button { animation: slideInRight 1.4s ease-out; }
+/* Floating blurred shapes behind the glass */
+.blob { position: fixed; border-radius: 50%; filter: blur(60px); opacity: 0.55; z-index: -1; animation: float 12s ease-in-out infinite; }
+.blob.one { width: 350px; height: 350px; background: #38bdf8; top: 5%; left: -5%; }
+.blob.two { width: 300px; height: 300px; background: #f472b6; top: 40%; right: -5%; animation-delay: -4s; }
+.blob.three { width: 400px; height: 400px; background: #fbbf24; bottom: -10%; left: 30%; animation-delay: -8s; }
+@keyframes float {
+0%, 100% { transform: translate(0, 0) scale(1); }
+33% { transform: translate(40px, -50px) scale(1.1); }
+66% { transform: translate(-30px, 30px) scale(0.95); }
+}
 
-    /* Scroll animations: hidden at first, then slide into place */
-    .reveal-right, .reveal-left {
-      opacity: 0;
-      transition: opacity 0.9s ease, transform 0.9s ease;
-    }
-    .reveal-right { transform: translateX(120px); }
-    .reveal-left { transform: translateX(-120px); }
-    .reveal-right.visible, .reveal-left.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
+/* The glass effect */
+.glass {
+background: rgba(255, 255, 255, 0.14);
+backdrop-filter: blur(24px) saturate(180%);
+-webkit-backdrop-filter: blur(24px) saturate(180%);
+border: 1px solid rgba(255, 255, 255, 0.3);
+border-radius: 28px;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+}
 
-    /* Stagger the cards so they arrive one after another */
-    .card:nth-child(2) { transition-delay: 0.2s; }
-    .card:nth-child(3) { transition-delay: 0.4s; }
-  </style>
+/* Floating glass navigation bar */
+nav {
+position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+width: calc(100% - 32px); max-width: 900px; z-index: 100;
+display: flex; justify-content: space-between; align-items: center;
+padding: 12px 24px; border-radius: 50px;
+animation: dropIn 0.9s ease-out;
+}
+@keyframes dropIn { from { opacity: 0; transform: translate(-50%, -80px); } to { opacity: 1; transform: translate(-50%, 0); } }
+nav .logo { font-weight: 700; font-size: 1.1rem; }
+nav .links a { color: #fff; text-decoration: none; margin-left: 18px; font-size: 0.95rem; opacity: 0.9; transition: opacity 0.3s; }
+nav .links a:hover { opacity: 1; text-shadow: 0 0 10px #fff; }
+
+/* Hero */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px 20px 60px; }
+.hero h1 { font-size: clamp(2.2rem, 6vw, 4.5rem); margin-bottom: 18px; animation: slideInRight 1s ease-out; }
+.hero p { font-size: 1.2rem; max-width: 600px; animation: slideInRight 1.2s ease-out; }
+.hero .tag { padding: 8px 20px; border-radius: 50px; margin-bottom: 24px; font-size: 0.9rem; animation: slideInLeft 1s ease-out; }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(150px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes slideInLeft { from { opacity: 0; transform: translateX(-150px); } to { opacity: 1; transform: translateX(0); } }
+
+.button {
+display: inline-block; margin-top: 30px; padding: 16px 36px; border-radius: 50px;
+color: #fff; text-decoration: none; font-weight: 600; cursor: pointer;
+background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5);
+backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+animation: slideInRight 1.4s ease-out, pulse 2.5s ease-in-out infinite 2s;
+}
+.button:hover { transform: scale(1.1); background: rgba(255,255,255,0.4); box-shadow: 0 0 30px rgba(255,255,255,0.6); }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.5); } 50% { box-shadow: 0 0 0 18px rgba(255,255,255,0); } }
+
+/* Sections */
+section { padding: 80px 20px; max-width: 1100px; margin: auto; text-align: center; overflow: hidden; }
+section h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 12px; }
+section .sub { opacity: 0.85; max-width: 600px; margin: 0 auto 40px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+.card { padding: 32px 24px; transition: transform 0.4s, box-shadow 0.4s; }
+.card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 20px 40px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.6); }
+.card .icon { font-size: 2.6rem; margin-bottom: 12px; display: inline-block; animation: bounce 3s ease-in-out infinite; }
+.card h3 { margin-bottom: 8px; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+/* Stats */
+.stat { padding: 30px 20px; }
+.stat .number { font-size: 3rem; font-weight: 800; }
+
+/* Process steps */
+.step { padding: 28px; text-align: left; display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
+.step .num { font-size: 2.2rem; font-weight: 800; min-width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.25); }
+
+/* Pricing */
+.price { font-size: 2.4rem; font-weight: 800; margin: 12px 0; }
+.price small { font-size: 1rem; font-weight: 400; opacity: 0.8; }
+.card ul { list-style: none; margin-top: 12px; }
+.card ul li { padding: 6px 0; opacity: 0.92; }
+.featured { transform: scale(1.05); border: 1px solid rgba(255,255,255,0.7); }
+
+/* Testimonials */
+.quote { padding: 28px; text-align: left; }
+.quote p { font-style: italic; margin-bottom: 14px; }
+.quote strong { display: block; }
+
+/* FAQ */
+details { padding: 18px 24px; margin-bottom: 14px; text-align: left; cursor: pointer; }
+details summary { font-weight: 600; }
+details p { margin-top: 10px; opacity: 0.9; }
+
+/* Contact */
+form { max-width: 480px; margin: 0 auto; padding: 32px; display: flex; flex-direction: column; gap: 14px; }
+input, textarea {
+padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.4);
+background: rgba(255,255,255,0.15); color: #fff; font-size: 1rem; outline: none;
+transition: box-shadow 0.3s, background 0.3s;
+}
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.75); }
+input:focus, textarea:focus { background: rgba(255,255,255,0.25); box-shadow: 0 0 20px rgba(255,255,255,0.5); }
+form button {
+padding: 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.5);
+background: rgba(255,255,255,0.3); color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer;
+transition: transform 0.3s, background 0.3s;
+}
+form button:hover { transform: scale(1.05); background: rgba(255,255,255,0.45); }
+
+footer { margin: 40px 16px 16px; padding: 28px; text-align: center; }
+
+/* Scroll reveal animations */
+.reveal-right, .reveal-left, .reveal-up, .reveal-zoom { opacity: 0; transition: opacity 0.9s ease, transform 0.9s ease; }
+.reveal-right { transform: translateX(140px); }
+.reveal-left { transform: translateX(-140px); }
+.reveal-up { transform: translateY(80px); }
+.reveal-zoom { transform: scale(0.7); }
+.visible { opacity: 1 !important; transform: translateX(0) translateY(0) scale(1) !important; }
+.featured.visible { transform: scale(1.05) !important; }
+.delay1 { transition-delay: 0.15s; }
+.delay2 { transition-delay: 0.3s; }
+.delay3 { transition-delay: 0.45s; }
+
+@media (max-width: 600px) { nav .links a { margin-left: 10px; font-size: 0.8rem; } .featured { transform: none; } }
+</style>
 </head>
 <body>
 
-  <header>
-    <h2>My Brand</h2>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#features">Features</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+<div class="blob one"></div>
+<div class="blob two"></div>
+<div class="blob three"></div>
 
-  <div class="hero" id="home">
-    <h1>Grow Your Business Today</h1>
-    <p>We help you reach more customers and boost your sales.</p>
-    <a href="#contact" class="button">Get Started</a>
-  </div>
+<nav class="glass">
+<div class="logo">⛰️ Digital Climbers</div>
+<div class="links">
+<a href="#services">Services</a>
+<a href="#process">Process</a>
+<a href="#pricing">Pricing</a>
+<a href="#contact">Contact</a>
+</div>
+</nav>
 
-  <section id="features">
-    <h2 class="reveal-left">Why Choose Us</h2>
-    <div class="features">
-      <div class="card reveal-right">
-        <h3>Fast Results</h3>
-        <p>See real growth in just a few weeks.</p>
-      </div>
-      <div class="card reveal-right">
-        <h3>Expert Team</h3>
-        <p>Experienced marketers on your side.</p>
-      </div>
-      <div class="card reveal-right">
-        <h3>Affordable</h3>
-        <p>Plans that fit any budget.</p>
-      </div>
-    </div>
-  </section>
+<div class="hero" id="home">
+<div class="tag glass">🚀 Digital Marketing Agency</div>
+<h1>Climb Higher with Digital Climbers</h1>
+<p>We help brands rise above the competition with smart strategy, stunning design, and results you can measure.</p>
+<a href="#contact" class="button">Start Your Climb</a>
+</div>
 
-  <section id="contact">
-    <h2 class="reveal-left">Contact Us</h2>
-    <form class="reveal-right">
-      <input type="text" placeholder="Your name" required>
-      <input type="email" placeholder="Your email" required>
-      <textarea rows="4" placeholder="Your message"></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
+<section id="stats">
+<div class="grid">
+<div class="stat glass reveal-zoom"><div class="number" data-target="250">0</div><p>Happy Clients</p></div>
+<div class="stat glass reveal-zoom delay1"><div class="number" data-target="540">0</div><p>Campaigns Launched</p></div>
+<div class="stat glass reveal-zoom delay2"><div class="number" data-target="98">0</div><p>% Client Satisfaction</p></div>
+<div class="stat glass reveal-zoom delay3"><div class="number" data-target="12">0</div><p>Years Experience</p></div>
+</div>
+</section>
 
-  <footer>
-    <p>&copy; 2026 My Brand. All rights reserved.</p>
-  </footer>
+<section id="services">
+<h2 class="reveal-left">Our Services</h2>
+<p class="sub reveal-right">Everything your brand needs to grow online, all under one roof.</p>
+<div class="grid">
+<div class="card glass reveal-right"><div class="icon">🔍</div><h3>SEO Optimization</h3><p>Rank higher on Google and get found by customers who are already searching for you.</p></div>
+<div class="card glass reveal-left delay1"><div class="icon">📱</div><h3>Social Media</h3><p>Engaging content and campaigns that build a loyal community around your brand.</p></div>
+<div class="card glass reveal-right delay2"><div class="icon">🎯</div><h3>Paid Advertising</h3><p>High-converting ads on Google, Instagram, and TikTok that maximise every dollar.</p></div>
+<div class="card glass reveal-left"><div class="icon">✍️</div><h3>Content Marketing</h3><p>Blogs, videos, and stories that educate your audience and drive sales.</p></div>
+<div class="card glass reveal-right delay1"><div class="icon">💌</div><h3>Email Marketing</h3><p>Automated email journeys that turn first-time visitors into repeat buyers.</p></div>
+<div class="card glass reveal-left delay2"><div class="icon">🎨</div><h3>Branding & Design</h3><p>Logos, websites, and visual identities that make you instantly memorable.</p></div>
+</div>
+</section>
 
-  <script>
-    // Watch for elements entering the screen, then slide them in
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
-      });
-    }, { threshold: 0.2 });
+<section id="process">
+<h2 class="reveal-up">How We Climb Together</h2>
+<p class="sub reveal-up">A simple four-step journey from idea to results.</p>
+<div class="step glass reveal-left"><div class="num">1</div><div><h3>Discover</h3><p>We learn about your business, your goals, and your audience.</p></div></div>
+<div class="step glass reveal-right"><div class="num">2</div><div><h3>Strategize</h3><p>We build a custom roadmap with clear targets and timelines.</p></div></div>
+<div class="step glass reveal-left"><div class="num">3</div><div><h3>Launch</h3><p>Our team brings the campaigns to life across every channel.</p></div></div>
+<div class="step glass reveal-right"><div class="num">4</div><div><h3>Optimize</h3><p>We track the data and keep improving until you reach the summit.</p></div></div>
+</section>
 
-    document.querySelectorAll(".reveal-right, .reveal-left").forEach((el) => {
-      observer.observe(el);
-    });
-  </script>
+<section id="pricing">
+<h2 class="reveal-up">Simple Pricing</h2>
+<p class="sub reveal-up">Pick the plan that fits your stage. Cancel any time.</p>
+<div class="grid">
+<div class="card glass reveal-left">
+<h3>Base Camp</h3><div class="price">$499<small>/month</small></div>
+<ul><li>✔ 2 social platforms</li><li>✔ Monthly report</li><li>✔ Basic SEO</li></ul>
+</div>
+<div class="card glass featured reveal-zoom delay1">
+<h3>⭐ Summit</h3><div class="price">$999<small>/month</small></div>
+<ul><li>✔ 4 social platforms</li><li>✔ Paid ads management</li><li>✔ Advanced SEO</li><li>✔ Weekly reports</li></ul>
+</div>
+<div class="card glass reveal-right delay2">
+<h3>Everest</h3><div class="price">$1,999<small>/month</small></div>
+<ul><li>✔ All platforms</li><li>✔ Dedicated manager</li><li>✔ Full content studio</li><li>✔ Priority support</li></ul>
+</div>
+</div>
+</section>
+
+<section id="testimonials">
+<h2 class="reveal-up">What Clients Say</h2>
+<p class="sub reveal-up">Real words from teams we have helped climb.</p>
+<div class="grid">
+<div class="quote glass reveal-left"><p>"Our traffic tripled in just three months. Digital Climbers truly delivers."</p><strong>Sarah M., Boutique Owner</strong></div>
+<div class="quote glass reveal-up delay1"><p>"Professional, creative, and always on time. Best agency we have worked with."</p><strong>James K., Startup Founder</strong></div>
+<div class="quote glass reveal-right delay2"><p>"Their ad campaigns paid for themselves in the first month."</p><strong>Priya R., E-commerce Manager</strong></div>
+</div>
+</section>
+
+<section id="faq">
+<h2 class="reveal-up">Frequently Asked Questions</h2>
+<p class="sub reveal-up">Quick answers to common questions.</p>
+<details class="glass reveal-left"><summary>How soon will I see results?</summary><p>Paid ads can bring results within days, while SEO usually takes three to six months to build momentum.</p></details>
+<details class="glass reveal-right"><summary>Do I need a long-term contract?</summary><p>No. All our plans are month to month, so you can pause or cancel any time.</p></details>
+<details class="glass reveal-left"><summary>Can you work with small businesses?</summary><p>Absolutely. We tailor every plan to your size, budget, and goals.</p></details>
+</section>
+
+<section id="contact">
+<h2 class="reveal-up">Ready to Start Climbing?</h2>
+<p class="sub reveal-up">Tell us about your project and we will get back to you within one business day.</p>
+<form class="glass reveal-zoom">
+<input type="text" placeholder="Your name" required>
+<input type="email" placeholder="Your email" required>
+<textarea rows="4" placeholder="Tell us about your project"></textarea>
+<button type="submit">Send Message</button>
+</form>
+</section>
+
+<footer class="glass reveal-up">
+<p>⛰️ <strong>Digital Climbers</strong>, helping brands reach the summit.</p>
+<p style="opacity:0.8; margin-top:6px;">&copy; 2026 Digital Climbers. All rights reserved.</p>
+</footer>
+
+<script>
+// Slide elements in when they scroll into view
+const observer = new IntersectionObserver((entries) => {
+entries.forEach((entry) => {
+if (entry.isIntersecting) {
+entry.target.classList.add("visible");
+// Start counting if this is a stat box
+const counter = entry.target.querySelector(".number");
+if (counter && !counter.dataset.done) { counter.dataset.done = "true"; countUp(counter); }
+}
+});
+}, { threshold: 0.2 });
+
+document.querySelectorAll(".reveal-right, .reveal-left, .reveal-up, .reveal-zoom").forEach((el) => observer.observe(el));
+
+// Animated number counter
+function countUp(el) {
+const target = +el.dataset.target;
+let current = 0;
+const step = Math.max(1, Math.ceil(target / 80));
+const timer = setInterval(() => {
+current += step;
+if (current >= target) { current = target; clearInterval(timer); }
+el.textContent = current + (target === 250 || target === 540 ? "+" : "");
+}, 25);
+}
+</script>
 
 </body>
-</html>
