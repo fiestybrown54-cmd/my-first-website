@@ -1,524 +1,560 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ASAD Associates | Property in Lahore: Sale, Purchase, Rent & Construction</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASAD Associates | Property in Lahore: Sale, Purchase, Rent & Construction</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
 
-<!-- Three.js for the rotating 3D house -->
-<script type="importmap">
-{ "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
-</script>
+  <!-- Three.js for the rotating 3D house -->
+  <script type="importmap">
+    { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js" } }
+  </script>
 
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-font-family: -apple-system, "SF Pro Display", "Segoe UI", Arial, sans-serif;
-line-height: 1.6;
-color: #f2fffd;
-overflow-x: hidden;
-min-height: 100vh;
-background: linear-gradient(135deg, #1f6f78 0%, #2f8f99 25%, #4fb3b5 50%, #7fd1c3 75%, #b5ebe0 100%);
-background-size: 300% 300%;
-background-attachment: fixed;
-animation: coolShift 25s ease infinite;
-}
-@keyframes coolShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, "SF Pro Display", "Segoe UI", Arial, sans-serif;
+      line-height: 1.6;
+      color: #f2fffd;
+      overflow-x: hidden;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1f6f78 0%, #2f8f99 25%, #4fb3b5 50%, #7fd1c3 75%, #b5ebe0 100%);
+      background-size: 300% 300%;
+      background-attachment: fixed;
+      animation: coolShift 25s ease infinite;
+    }
+    @keyframes coolShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-/* 3D house canvas, fixed behind everything */
-#house3d { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+    /* 3D house canvas, fixed behind everything */
+    #house3d { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
-.orb { position: fixed; border-radius: 50%; filter: blur(55px); z-index: -2; animation: float 15s ease-in-out infinite; }
-.orb.one { width: 420px; height: 420px; background: #8fe3df; top: 5%; left: -8%; opacity: 0.7; }
-.orb.two { width: 360px; height: 360px; background: #7ec8e3; top: 38%; right: -8%; opacity: 0.65; animation-delay: -5s; }
-.orb.three { width: 460px; height: 460px; background: #5fcfa8; bottom: -12%; left: 25%; opacity: 0.5; animation-delay: -9s; }
-.orb.four { width: 300px; height: 300px; background: #c4f1ea; top: 70%; left: -5%; opacity: 0.65; animation-delay: -12s; }
-@keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -60px) scale(1.12); } 66% { transform: translate(-40px, 40px) scale(0.94); } }
+    .orb { position: fixed; border-radius: 50%; filter: blur(55px); z-index: -2; animation: float 15s ease-in-out infinite; }
+    .orb.one { width: 420px; height: 420px; background: #8fe3df; top: 5%; left: -8%; opacity: 0.7; }
+    .orb.two { width: 360px; height: 360px; background: #7ec8e3; top: 38%; right: -8%; opacity: 0.65; animation-delay: -5s; }
+    .orb.three { width: 460px; height: 460px; background: #5fcfa8; bottom: -12%; left: 25%; opacity: 0.5; animation-delay: -9s; }
+    .orb.four { width: 300px; height: 300px; background: #c4f1ea; top: 70%; left: -5%; opacity: 0.65; animation-delay: -12s; }
+    @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(50px, -60px) scale(1.12); } 66% { transform: translate(-40px, 40px) scale(0.94); } }
 
-/* Glass */
-.glass {
-background: linear-gradient(145deg, rgba(255,255,255,0.24), rgba(255,255,255,0.05));
-backdrop-filter: blur(16px) saturate(190%);
--webkit-backdrop-filter: blur(16px) saturate(190%);
-border: 1px solid rgba(255,255,255,0.32);
-border-top: 1px solid rgba(255,255,255,0.75);
-border-left: 1px solid rgba(255,255,255,0.5);
-border-radius: 28px;
-box-shadow: 0 10px 36px rgba(10,60,70,0.3), inset 0 1px 1px rgba(255,255,255,0.75), inset 0 -1px 1px rgba(255,255,255,0.15);
-position: relative; overflow: hidden;
-}
-.glass::after {
-content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
-background: linear-gradient(100deg, transparent, rgba(255,255,255,0.32), transparent);
-transform: skewX(-20deg); transition: left 0.9s ease; pointer-events: none;
-}
-.glass:hover::after { left: 140%; }
+    /* Glass */
+    .glass {
+      background: linear-gradient(145deg, rgba(255,255,255,0.24), rgba(255,255,255,0.05));
+      backdrop-filter: blur(16px) saturate(190%);
+      -webkit-backdrop-filter: blur(16px) saturate(190%);
+      border: 1px solid rgba(255,255,255,0.32);
+      border-top: 1px solid rgba(255,255,255,0.75);
+      border-left: 1px solid rgba(255,255,255,0.5);
+      border-radius: 28px;
+      box-shadow: 0 10px 36px rgba(10,60,70,0.3), inset 0 1px 1px rgba(255,255,255,0.75), inset 0 -1px 1px rgba(255,255,255,0.15);
+      position: relative; overflow: hidden;
+    }
+    .glass::after {
+      content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.32), transparent);
+      transform: skewX(-20deg); transition: left 0.9s ease; pointer-events: none;
+    }
+    .glass:hover::after { left: 140%; }
 
-/* Navigation */
-nav {
-position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
-width: calc(100% - 32px); max-width: 1020px; z-index: 100;
-display: flex; justify-content: space-between; align-items: center;
-padding: 10px 14px 10px 26px; border-radius: 60px; animation: dropIn 0.9s ease-out;
-}
-@keyframes dropIn { from { opacity: 0; transform: translate(-50%, -80px); } to { opacity: 1; transform: translate(-50%, 0); } }
-nav .logo { font-family: "Cinzel", Georgia, serif; font-weight: 800; font-size: 1.6rem; letter-spacing: 2px; white-space: nowrap; color: #fff; text-shadow: 0 2px 10px rgba(10,60,70,0.35); }
-nav .logo span { font-weight: 600; color: #d6fff6; }
-nav .links { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-nav .links a { color: #fff; text-decoration: none; font-size: 0.88rem; padding: 8px 14px; border-radius: 40px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.22); transition: background 0.3s, transform 0.3s, box-shadow 0.3s; }
-nav .links a:hover { background: rgba(255,255,255,0.32); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(255,255,255,0.3); }
+    /* Navigation */
+    nav {
+      position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+      width: calc(100% - 32px); max-width: 1020px; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 14px 10px 26px; border-radius: 60px; animation: dropIn 0.9s ease-out;
+    }
+    @keyframes dropIn { from { opacity: 0; transform: translate(-50%, -80px); } to { opacity: 1; transform: translate(-50%, 0); } }
+    nav .logo { font-family: "Cinzel", Georgia, serif; font-weight: 800; font-size: 1.6rem; letter-spacing: 2px; white-space: nowrap; color: #fff; text-shadow: 0 2px 10px rgba(10,60,70,0.35); }
+    nav .logo span { font-weight: 600; color: #d6fff6; }
+    nav .links { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    nav .links a { color: #fff; text-decoration: none; font-size: 0.88rem; padding: 8px 14px; border-radius: 40px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.22); transition: background 0.3s, transform 0.3s, box-shadow 0.3s; }
+    nav .links a:hover { background: rgba(255,255,255,0.32); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(255,255,255,0.3); }
 
-/* Buttons */
-.button, form button {
-display: inline-block; padding: 16px 38px; border-radius: 60px; color: #fff; text-decoration: none;
-font-weight: 600; font-size: 1rem; cursor: pointer; position: relative; overflow: hidden;
-background: linear-gradient(145deg, rgba(255,255,255,0.3), rgba(255,255,255,0.04));
-border: 1px solid rgba(255,255,255,0.5); border-top: 1px solid rgba(255,255,255,0.9);
-backdrop-filter: blur(12px) saturate(190%); -webkit-backdrop-filter: blur(12px) saturate(190%);
-box-shadow: 0 8px 26px rgba(10,60,70,0.3), inset 0 1px 2px rgba(255,255,255,0.85);
-transition: transform 0.35s, background 0.35s, box-shadow 0.35s;
-}
-.button::after, form button::after { content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255,255,255,0.55), transparent); transform: skewX(-20deg); transition: left 0.7s ease; }
-.button:hover::after, form button:hover::after { left: 150%; }
-.button:hover, form button:hover { transform: translateY(-4px) scale(1.06); background: linear-gradient(145deg, rgba(255,255,255,0.42), rgba(255,255,255,0.1)); box-shadow: 0 14px 34px rgba(10,60,70,0.4), 0 0 28px rgba(200,255,245,0.55), inset 0 1px 2px rgba(255,255,255,1); }
-.button:active, form button:active { transform: scale(0.97); }
-.hero .button { margin: 30px 8px 0; animation: slideInRight 1.4s ease-out; }
+    /* Buttons */
+    .button, form button {
+      display: inline-block; padding: 16px 38px; border-radius: 60px; color: #fff; text-decoration: none;
+      font-weight: 600; font-size: 1rem; cursor: pointer; position: relative; overflow: hidden;
+      background: linear-gradient(145deg, rgba(255,255,255,0.3), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.5); border-top: 1px solid rgba(255,255,255,0.9);
+      backdrop-filter: blur(12px) saturate(190%); -webkit-backdrop-filter: blur(12px) saturate(190%);
+      box-shadow: 0 8px 26px rgba(10,60,70,0.3), inset 0 1px 2px rgba(255,255,255,0.85);
+      transition: transform 0.35s, background 0.35s, box-shadow 0.35s;
+    }
+    .button::after, form button::after { content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255,255,255,0.55), transparent); transform: skewX(-20deg); transition: left 0.7s ease; }
+    .button:hover::after, form button:hover::after { left: 150%; }
+    .button:hover, form button:hover { transform: translateY(-4px) scale(1.06); background: linear-gradient(145deg, rgba(255,255,255,0.42), rgba(255,255,255,0.1)); box-shadow: 0 14px 34px rgba(10,60,70,0.4), 0 0 28px rgba(200,255,245,0.55), inset 0 1px 2px rgba(255,255,255,1); }
+    .button:active, form button:active { transform: scale(0.97); }
+    .hero .button { margin: 30px 8px 0; animation: slideInRight 1.4s ease-out; }
 
-/* Floating WhatsApp button (placeholder link) */
-.whatsapp {
-position: fixed; right: 22px; bottom: 22px; z-index: 200; width: 64px; height: 64px; border-radius: 50%;
-display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 2rem;
-background: linear-gradient(145deg, rgba(37,211,102,0.75), rgba(18,140,126,0.5));
-border: 1px solid rgba(255,255,255,0.7); border-top: 1px solid rgba(255,255,255,0.95);
-backdrop-filter: blur(12px) saturate(190%); -webkit-backdrop-filter: blur(12px) saturate(190%);
-box-shadow: 0 8px 28px rgba(0,60,40,0.4), inset 0 1px 2px rgba(255,255,255,0.8);
-animation: waPulse 2.5s ease-in-out infinite; transition: transform 0.3s;
-}
-.whatsapp:hover { transform: scale(1.12); }
-@keyframes waPulse { 0%, 100% { box-shadow: 0 8px 28px rgba(0,60,40,0.4), 0 0 0 0 rgba(37,211,102,0.5), inset 0 1px 2px rgba(255,255,255,0.8); } 50% { box-shadow: 0 8px 28px rgba(0,60,40,0.4), 0 0 0 18px rgba(37,211,102,0), inset 0 1px 2px rgba(255,255,255,0.8); } }
+    /* Floating WhatsApp button (placeholder link) */
+    .whatsapp {
+      position: fixed; right: 22px; bottom: 22px; z-index: 200; width: 64px; height: 64px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 2rem;
+      background: linear-gradient(145deg, rgba(37,211,102,0.75), rgba(18,140,126,0.5));
+      border: 1px solid rgba(255,255,255,0.7); border-top: 1px solid rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px) saturate(190%); -webkit-backdrop-filter: blur(12px) saturate(190%);
+      box-shadow: 0 8px 28px rgba(0,60,40,0.4), inset 0 1px 2px rgba(255,255,255,0.8);
+      animation: waPulse 2.5s ease-in-out infinite; transition: transform 0.3s;
+    }
+    .whatsapp:hover { transform: scale(1.12); }
+    @keyframes waPulse { 0%, 100% { box-shadow: 0 8px 28px rgba(0,60,40,0.4), 0 0 0 0 rgba(37,211,102,0.5), inset 0 1px 2px rgba(255,255,255,0.8); } 50% { box-shadow: 0 8px 28px rgba(0,60,40,0.4), 0 0 0 18px rgba(37,211,102,0), inset 0 1px 2px rgba(255,255,255,0.8); } }
 
-/* Hero */
-.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 130px 20px 60px; }
-.brand { font-family: "Cinzel", Georgia, serif; font-weight: 800; font-size: clamp(3rem, 11vw, 7.5rem); line-height: 1.05; letter-spacing: 4px; background: linear-gradient(90deg, #ffffff, #c9fff2, #ffffff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 6px 18px rgba(10,60,70,0.35)); animation: slideInRight 1s ease-out, shine 6s linear infinite; }
-.brand-sub { font-family: "Playfair Display", Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(1.4rem, 4vw, 2.4rem); color: #e6fffa; margin: 4px 0 22px; letter-spacing: 3px; animation: slideInLeft 1.2s ease-out; }
-@keyframes shine { to { background-position: 200% center; } }
-.hero h1 { font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 600; margin-bottom: 14px; animation: slideInRight 1.2s ease-out; }
-.hero p { font-size: 1.15rem; max-width: 660px; color: #eafffb; animation: slideInRight 1.4s ease-out; }
-.hero .tag { padding: 8px 22px; border-radius: 50px; margin-bottom: 24px; font-size: 0.9rem; animation: slideInLeft 1s ease-out; }
-@keyframes slideInRight { from { opacity: 0; transform: translateX(150px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes slideInLeft { from { opacity: 0; transform: translateX(-150px); } to { opacity: 1; transform: translateX(0); } }
+    /* Hero */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 130px 20px 60px; }
+    .brand { font-family: "Cinzel", Georgia, serif; font-weight: 800; font-size: clamp(3rem, 11vw, 7.5rem); line-height: 1.05; letter-spacing: 4px; background: linear-gradient(90deg, #ffffff, #c9fff2, #ffffff); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 6px 18px rgba(10,60,70,0.35)); animation: slideInRight 1s ease-out, shine 6s linear infinite; }
+    .brand-sub { font-family: "Playfair Display", Georgia, serif; font-style: italic; font-weight: 500; font-size: clamp(1.4rem, 4vw, 2.4rem); color: #e6fffa; margin: 4px 0 22px; letter-spacing: 3px; animation: slideInLeft 1.2s ease-out; }
+    @keyframes shine { to { background-position: 200% center; } }
+    .hero h1 { font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 600; margin-bottom: 14px; animation: slideInRight 1.2s ease-out; }
+    .hero p { font-size: 1.15rem; max-width: 660px; color: #eafffb; animation: slideInRight 1.4s ease-out; }
+    .hero .tag { padding: 8px 22px; border-radius: 50px; margin-bottom: 24px; font-size: 0.9rem; animation: slideInLeft 1s ease-out; }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(150px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-150px); } to { opacity: 1; transform: translateX(0); } }
 
-/* Demo banner */
-.demo-banner { max-width: 760px; margin: 0 auto 10px; padding: 12px 24px; text-align: center; font-size: 0.9rem; border-radius: 50px; }
+    /* Demo banner */
+    .demo-banner { max-width: 760px; margin: 0 auto 10px; padding: 12px 24px; text-align: center; font-size: 0.9rem; border-radius: 50px; }
 
-/* Sections */
-section { padding: 80px 20px; max-width: 1100px; margin: auto; text-align: center; }
-section h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 12px; text-shadow: 0 2px 12px rgba(10,60,70,0.3); }
-section .sub { color: #eafffb; max-width: 650px; margin: 0 auto 40px; }
+    /* Sections */
+    section { padding: 80px 20px; max-width: 1100px; margin: auto; text-align: center; }
+    section h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 12px; text-shadow: 0 2px 12px rgba(10,60,70,0.3); }
+    section .sub { color: #eafffb; max-width: 650px; margin: 0 auto 40px; }
 
-/* Scroll story: text changes beside the rotating house */
-.story { min-height: 100vh; display: flex; align-items: center; padding: 60px 20px; max-width: 1100px; margin: auto; }
-.story .panel { max-width: 460px; padding: 36px 32px; text-align: left; }
-.story.right { justify-content: flex-end; }
-.story .panel .step-tag { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; }
-.story .panel h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); margin: 8px 0 12px; }
-.story .panel p { color: #eafffb; }
+    /* Scroll story: text changes beside the rotating house */
+    .story { min-height: 100vh; display: flex; align-items: center; padding: 60px 20px; max-width: 1100px; margin: auto; }
+    .story .panel { max-width: 460px; padding: 36px 32px; text-align: left; }
+    .story.right { justify-content: flex-end; }
+    .story .panel .step-tag { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.85; }
+    .story .panel h2 { font-size: clamp(1.6rem, 3.5vw, 2.4rem); margin: 8px 0 12px; }
+    .story .panel p { color: #eafffb; }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
-.card { padding: 32px 24px; transition: transform 0.4s, box-shadow 0.4s; }
-.card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 24px 50px rgba(10,60,70,0.4), inset 0 1px 2px rgba(255,255,255,0.9); }
-.card .icon { font-size: 2.6rem; margin-bottom: 12px; display: inline-block; animation: bounce 3s ease-in-out infinite; }
-.card h3 { margin-bottom: 8px; }
-.card p { color: #eafffb; }
-@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+    .card { padding: 32px 24px; transition: transform 0.4s, box-shadow 0.4s; }
+    .card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 24px 50px rgba(10,60,70,0.4), inset 0 1px 2px rgba(255,255,255,0.9); }
+    .card .icon { font-size: 2.6rem; margin-bottom: 12px; display: inline-block; animation: bounce 3s ease-in-out infinite; }
+    .card h3 { margin-bottom: 8px; }
+    .card p { color: #eafffb; }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-.stat { padding: 30px 20px; }
-.stat .number { font-size: 3rem; font-weight: 800; }
+    .stat { padding: 30px 20px; }
+    .stat .number { font-size: 3rem; font-weight: 800; }
 
-.property { text-align: left; padding: 0; }
-.property .photo { height: 170px; display: flex; align-items: center; justify-content: center; font-size: 4rem; background: linear-gradient(135deg, rgba(220,255,250,0.5), rgba(79,179,181,0.4)); border-bottom: 1px solid rgba(255,255,255,0.3); }
-.property .info { padding: 20px 24px 26px; }
-.property .badge { display: inline-block; padding: 4px 14px; border-radius: 30px; font-size: 0.8rem; background: rgba(255,255,255,0.28); border: 1px solid rgba(255,255,255,0.55); margin-bottom: 10px; }
-.property .price { font-size: 1.5rem; font-weight: 800; margin: 6px 0; }
-.property .meta { color: #eafffb; font-size: 0.92rem; }
+    .property { text-align: left; padding: 0; }
+    .property .photo { height: 170px; display: flex; align-items: center; justify-content: center; font-size: 4rem; background: linear-gradient(135deg, rgba(220,255,250,0.5), rgba(79,179,181,0.4)); border-bottom: 1px solid rgba(255,255,255,0.3); }
+    .property .info { padding: 20px 24px 26px; }
+    .property .badge { display: inline-block; padding: 4px 14px; border-radius: 30px; font-size: 0.8rem; background: rgba(255,255,255,0.28); border: 1px solid rgba(255,255,255,0.55); margin-bottom: 10px; }
+    .property .price { font-size: 1.5rem; font-weight: 800; margin: 6px 0; }
+    .property .meta { color: #eafffb; font-size: 0.92rem; }
 
-.project { padding: 28px; text-align: left; }
-.project .city { font-size: 0.85rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
-.project h3 { margin: 6px 0 10px; }
+    .project { padding: 28px; text-align: left; }
+    .project .city { font-size: 0.85rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
+    .project h3 { margin: 6px 0 10px; }
 
-.step { padding: 28px; text-align: left; display: flex; gap: 20px; align-items: center; margin-bottom: 20px; transition: transform 0.4s; }
-.step:hover { transform: translateX(10px); }
-.step .num { font-size: 2rem; font-weight: 800; min-width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(145deg, rgba(255,255,255,0.38), rgba(255,255,255,0.06)); border: 1px solid rgba(255,255,255,0.65); box-shadow: inset 0 1px 2px rgba(255,255,255,0.85); }
+    .step { padding: 28px; text-align: left; display: flex; gap: 20px; align-items: center; margin-bottom: 20px; transition: transform 0.4s; }
+    .step:hover { transform: translateX(10px); }
+    .step .num { font-size: 2rem; font-weight: 800; min-width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: linear-gradient(145deg, rgba(255,255,255,0.38), rgba(255,255,255,0.06)); border: 1px solid rgba(255,255,255,0.65); box-shadow: inset 0 1px 2px rgba(255,255,255,0.85); }
 
-.quote { padding: 28px; text-align: left; }
-.quote p { font-style: italic; margin-bottom: 14px; color: #eafffb; }
-.quote strong { display: block; }
+    .quote { padding: 28px; text-align: left; }
+    .quote p { font-style: italic; margin-bottom: 14px; color: #eafffb; }
+    .quote strong { display: block; }
 
-details { padding: 18px 24px; margin-bottom: 14px; text-align: left; cursor: pointer; }
-details summary { font-weight: 600; }
-details p { margin-top: 10px; color: #eafffb; }
+    details { padding: 18px 24px; margin-bottom: 14px; text-align: left; cursor: pointer; }
+    details summary { font-weight: 600; }
+    details p { margin-top: 10px; color: #eafffb; }
 
-.note { font-size: 0.85rem; opacity: 0.9; margin-top: 24px; }
+    .note { font-size: 0.85rem; opacity: 0.9; margin-top: 24px; }
 
-form { max-width: 500px; margin: 0 auto; padding: 32px; display: flex; flex-direction: column; gap: 14px; }
-input, textarea, select { padding: 14px 18px; border-radius: 18px; color: #fff; font-size: 1rem; outline: none; font-family: inherit; background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.38); border-top: 1px solid rgba(255,255,255,0.65); box-shadow: inset 0 2px 8px rgba(10,60,70,0.15); transition: box-shadow 0.3s, background 0.3s; }
-select option { color: #123; }
-input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.8); }
-input:focus, textarea:focus, select:focus { background: rgba(255,255,255,0.28); box-shadow: 0 0 22px rgba(200,255,245,0.6), inset 0 2px 8px rgba(10,60,70,0.1); }
+    form { max-width: 500px; margin: 0 auto; padding: 32px; display: flex; flex-direction: column; gap: 14px; }
+    input, textarea, select { padding: 14px 18px; border-radius: 18px; color: #fff; font-size: 1rem; outline: none; font-family: inherit; background: linear-gradient(145deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05)); border: 1px solid rgba(255,255,255,0.38); border-top: 1px solid rgba(255,255,255,0.65); box-shadow: inset 0 2px 8px rgba(10,60,70,0.15); transition: box-shadow 0.3s, background 0.3s; }
+    select option { color: #123; }
+    input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.8); }
+    input:focus, textarea:focus, select:focus { background: rgba(255,255,255,0.28); box-shadow: 0 0 22px rgba(200,255,245,0.6), inset 0 2px 8px rgba(10,60,70,0.1); }
 
-footer { margin: 40px 16px 16px; padding: 34px 28px; text-align: center; }
-footer .foot-brand { font-family: "Cinzel", Georgia, serif; font-weight: 800; font-size: clamp(2rem, 6vw, 3.4rem); letter-spacing: 3px; color: #fff; text-shadow: 0 3px 14px rgba(10,60,70,0.35); }
+    footer { margin: 40px 16px 16px; padding: 34px 28px; text-align: center; }
+    footer .foot-brand { font-family: "Cinzel", Georgia, serif; font-weight: 800; font-size: clamp(2rem, 6vw, 3.4rem); letter-spacing: 3px; color: #fff; text-shadow: 0 3px 14px rgba(10,60,70,0.35); }
 
-/* Scroll reveal */
-.reveal-right, .reveal-left, .reveal-up, .reveal-zoom { opacity: 0; transition: opacity 0.9s ease, transform 0.9s ease, box-shadow 0.4s; }
-.reveal-right { transform: translateX(140px); }
-.reveal-left { transform: translateX(-140px); }
-.reveal-up { transform: translateY(80px); }
-.reveal-zoom { transform: scale(0.7); }
-.visible { opacity: 1 !important; transform: translateX(0) translateY(0) scale(1) !important; }
-.card.visible:hover { transform: translateY(-10px) scale(1.03) !important; }
-.step.visible:hover { transform: translateX(10px) !important; }
-.delay1 { transition-delay: 0.15s; }
-.delay2 { transition-delay: 0.3s; }
-.delay3 { transition-delay: 0.45s; }
+    /* Scroll reveal */
+    .reveal-right, .reveal-left, .reveal-up, .reveal-zoom { opacity: 0; transition: opacity 0.9s ease, transform 0.9s ease, box-shadow 0.4s; }
+    .reveal-right { transform: translateX(140px); }
+    .reveal-left { transform: translateX(-140px); }
+    .reveal-up { transform: translateY(80px); }
+    .reveal-zoom { transform: scale(0.7); }
+    .visible { opacity: 1 !important; transform: translateX(0) translateY(0) scale(1) !important; }
+    .card.visible:hover { transform: translateY(-10px) scale(1.03) !important; }
+    .step.visible:hover { transform: translateX(10px) !important; }
+    .delay1 { transition-delay: 0.15s; }
+    .delay2 { transition-delay: 0.3s; }
+    .delay3 { transition-delay: 0.45s; }
 
-@media (max-width: 760px) {
-nav { border-radius: 28px; flex-direction: column; gap: 8px; padding: 12px; }
-nav .logo { font-size: 1.4rem; }
-nav .links { justify-content: center; }
-nav .links a { padding: 5px 10px; font-size: 0.75rem; }
-.hero { padding-top: 180px; }
-.story, .story.right { justify-content: center; }
-.whatsapp { width: 56px; height: 56px; font-size: 1.7rem; right: 14px; bottom: 14px; }
-}
-</style>
+    @media (max-width: 760px) {
+      nav { border-radius: 28px; flex-direction: column; gap: 8px; padding: 12px; }
+      nav .logo { font-size: 1.4rem; }
+      nav .links { justify-content: center; }
+      nav .links a { padding: 5px 10px; font-size: 0.75rem; }
+      .hero { padding-top: 180px; }
+      .story, .story.right { justify-content: center; }
+      .whatsapp { width: 56px; height: 56px; font-size: 1.7rem; right: 14px; bottom: 14px; }
+    }
+  </style>
 </head>
 <body>
 
-<canvas id="house3d"></canvas>
-<div class="orb one"></div>
-<div class="orb two"></div>
-<div class="orb three"></div>
-<div class="orb four"></div>
+  <canvas id="house3d"></canvas>
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
+  <div class="orb four"></div>
 
-<!-- Floating WhatsApp button: replace the number in the link later -->
-<a class="whatsapp" href="https://wa.me/920000000000?text=Hello%20ASAD%20Associates%2C%20I%20am%20interested%20in%20a%20property." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">💬</a>
+  <!-- Floating WhatsApp button: replace the number in the link later -->
+  <a class="whatsapp" href="https://wa.me/920000000000?text=Hello%20ASAD%20Associates%2C%20I%20am%20interested%20in%20a%20property." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">💬</a>
 
-<nav class="glass">
-<div class="logo">ASAD <span>Associates</span></div>
-<div class="links">
-<a href="#services">Services</a>
-<a href="#properties">Properties</a>
-<a href="#projects">Lahore Projects</a>
-<a href="#contact">Contact</a>
-</div>
-</nav>
+  <nav class="glass">
+    <div class="logo">ASAD <span>Associates</span></div>
+    <div class="links">
+      <a href="#services">Services</a>
+      <a href="#properties">Properties</a>
+      <a href="#projects">Lahore Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
 
-<div class="hero" id="home">
-<div class="tag glass">📍 Serving Lahore, Pakistan</div>
-<div class="brand">ASAD</div>
-<div class="brand-sub">Associates</div>
-<h1>Find, Buy, Rent & Build Your Dream Home in Lahore</h1>
-<p>Your reliable partner for property sale, purchase, rent, and construction, with honest guidance and the best prices in the market.</p>
-<div>
-<a href="#properties" class="button">View Properties</a>
-<a href="#contact" class="button">Free Consultation</a>
-</div>
-</div>
+  <div class="hero" id="home">
+    <div class="tag glass">📍 Serving Lahore, Pakistan</div>
+    <div class="brand">ASAD</div>
+    <div class="brand-sub">Associates</div>
+    <h1>Find, Buy, Rent & Build Your Dream Home in Lahore</h1>
+    <p>Your reliable partner for property sale, purchase, rent, and construction, with honest guidance and the best prices in the market.</p>
+    <div>
+      <a href="#properties" class="button">View Properties</a>
+      <a href="#contact" class="button">Free Consultation</a>
+    </div>
+  </div>
 
-<div class="demo-banner glass">🧪 Demo website: all prices, listings, numbers, and reviews are sample content only.</div>
+  <div class="demo-banner glass">🧪 Demo website: all prices, listings, numbers, and reviews are sample content only.</div>
 
-<!-- Scroll story with the rotating house -->
-<div class="story">
-<div class="panel glass reveal-left">
-<div class="step-tag">Step 1 · Foundation</div>
-<h2>Every dream starts with the right plot</h2>
-<p>We help you find verified land in Lahore's best societies, with clear documents and honest advice.</p>
-</div>
-</div>
-<div class="story right">
-<div class="panel glass reveal-right">
-<div class="step-tag">Step 2 · Construction</div>
-<h2>We build it with care</h2>
-<p>From grey structure to full finishing, our construction team delivers quality work on time.</p>
-</div>
-</div>
-<div class="story">
-<div class="panel glass reveal-left">
-<div class="step-tag">Step 3 · Design</div>
-<h2>Modern living, your style</h2>
-<p>Smart layouts, natural light, and finishing that fits your family and your budget.</p>
-</div>
-</div>
-<div class="story right">
-<div class="panel glass reveal-right">
-<div class="step-tag">Step 4 · Handover</div>
-<h2>Keys in your hand</h2>
-<p>Buy, rent, or build with ASAD Associates and move into your new home with complete peace of mind.</p>
-</div>
-</div>
+  <!-- Scroll story with the rotating house -->
+  <div class="story">
+    <div class="panel glass reveal-left">
+      <div class="step-tag">Step 1 · Foundation</div>
+      <h2>Every dream starts with the right plot</h2>
+      <p>We help you find verified land in Lahore's best societies, with clear documents and honest advice.</p>
+    </div>
+  </div>
+  <div class="story right">
+    <div class="panel glass reveal-right">
+      <div class="step-tag">Step 2 · Construction</div>
+      <h2>We build it with care</h2>
+      <p>From grey structure to full finishing, our construction team delivers quality work on time.</p>
+    </div>
+  </div>
+  <div class="story">
+    <div class="panel glass reveal-left">
+      <div class="step-tag">Step 3 · Design</div>
+      <h2>Modern living, your style</h2>
+      <p>Smart layouts, natural light, and finishing that fits your family and your budget.</p>
+    </div>
+  </div>
+  <div class="story right">
+    <div class="panel glass reveal-right">
+      <div class="step-tag">Step 4 · Handover</div>
+      <h2>Keys in your hand</h2>
+      <p>Buy, rent, or build with ASAD Associates and move into your new home with complete peace of mind.</p>
+    </div>
+  </div>
 
-<section id="stats">
-<div class="grid">
-<div class="stat glass reveal-zoom"><div class="number" data-target="500">0</div><p>Properties Sold</p></div>
-<div class="stat glass reveal-zoom delay1"><div class="number" data-target="350">0</div><p>Happy Families</p></div>
-<div class="stat glass reveal-zoom delay2"><div class="number" data-target="120">0</div><p>Homes Constructed</p></div>
-<div class="stat glass reveal-zoom delay3"><div class="number" data-target="15">0</div><p>Years of Trust</p></div>
-</div>
-</section>
+  <section id="stats">
+    <div class="grid">
+      <div class="stat glass reveal-zoom"><div class="number" data-target="500">0</div><p>Properties Sold</p></div>
+      <div class="stat glass reveal-zoom delay1"><div class="number" data-target="350">0</div><p>Happy Families</p></div>
+      <div class="stat glass reveal-zoom delay2"><div class="number" data-target="120">0</div><p>Homes Constructed</p></div>
+      <div class="stat glass reveal-zoom delay3"><div class="number" data-target="15">0</div><p>Years of Trust</p></div>
+    </div>
+  </section>
 
-<section id="services">
-<h2 class="reveal-left">Our Services</h2>
-<p class="sub reveal-right">From finding the right plot to handing you the keys, we handle everything under one roof.</p>
-<div class="grid">
-<div class="card glass reveal-right"><div class="icon">🏠</div><h3>Property for Sale</h3><p>Verified houses, plots, apartments, and commercial properties with clear documents.</p></div>
-<div class="card glass reveal-left delay1"><div class="icon">🔑</div><h3>Property Purchase</h3><p>We guide you from site visit to registry so your investment stays safe and smooth.</p></div>
-<div class="card glass reveal-right delay2"><div class="icon">🏢</div><h3>Rentals</h3><p>Homes, flats, and shops for rent, matched to your budget and location.</p></div>
-<div class="card glass reveal-left"><div class="icon">🏗️</div><h3>Home Construction</h3><p>Complete grey structure and finishing work with quality material and on-time delivery.</p></div>
-<div class="card glass reveal-right delay1"><div class="icon">📑</div><h3>Documentation Help</h3><p>Ownership checks, transfer support, and file verification so there are no surprises.</p></div>
-<div class="card glass reveal-left delay2"><div class="icon">💰</div><h3>Investment Advice</h3><p>Honest advice on where your money can grow, from developing areas to established societies.</p></div>
-</div>
-</section>
+  <section id="services">
+    <h2 class="reveal-left">Our Services</h2>
+    <p class="sub reveal-right">From finding the right plot to handing you the keys, we handle everything under one roof.</p>
+    <div class="grid">
+      <div class="card glass reveal-right"><div class="icon">🏠</div><h3>Property for Sale</h3><p>Verified houses, plots, apartments, and commercial properties with clear documents.</p></div>
+      <div class="card glass reveal-left delay1"><div class="icon">🔑</div><h3>Property Purchase</h3><p>We guide you from site visit to registry so your investment stays safe and smooth.</p></div>
+      <div class="card glass reveal-right delay2"><div class="icon">🏢</div><h3>Rentals</h3><p>Homes, flats, and shops for rent, matched to your budget and location.</p></div>
+      <div class="card glass reveal-left"><div class="icon">🏗️</div><h3>Home Construction</h3><p>Complete grey structure and finishing work with quality material and on-time delivery.</p></div>
+      <div class="card glass reveal-right delay1"><div class="icon">📑</div><h3>Documentation Help</h3><p>Ownership checks, transfer support, and file verification so there are no surprises.</p></div>
+      <div class="card glass reveal-left delay2"><div class="icon">💰</div><h3>Investment Advice</h3><p>Honest advice on where your money can grow, from developing areas to established societies.</p></div>
+    </div>
+  </section>
 
-<section id="properties">
-<h2 class="reveal-up">Featured Properties in Lahore</h2>
-<p class="sub reveal-up">Sample listings for demonstration. Contact us for real availability and prices.</p>
-<div class="grid">
-<div class="card property glass reveal-left"><div class="photo">🏡</div><div class="info"><span class="badge">For Sale</span><h3>10 Marla Modern House</h3><div class="price">PKR 4.5 Crore</div><p class="meta">5 Bed · 5 Bath · DHA Phase 6, Lahore</p></div></div>
-<div class="card property glass reveal-up delay1"><div class="photo">🏢</div><div class="info"><span class="badge">For Sale</span><h3>2 Bed Luxury Apartment</h3><div class="price">PKR 1.8 Crore</div><p class="meta">2 Bed · 2 Bath · Gulberg, Lahore</p></div></div>
-<div class="card property glass reveal-right delay2"><div class="photo">🌳</div><div class="info"><span class="badge">Plot</span><h3>1 Kanal Residential Plot</h3><div class="price">PKR 3.2 Crore</div><p class="meta">Corner · Park Facing · Bahria Town, Lahore</p></div></div>
-<div class="card property glass reveal-left"><div class="photo">🏘️</div><div class="info"><span class="badge">For Rent</span><h3>5 Marla Family House</h3><div class="price">PKR 85,000 / month</div><p class="meta">3 Bed · 3 Bath · Wapda Town, Lahore</p></div></div>
-<div class="card property glass reveal-up delay1"><div class="photo">🏬</div><div class="info"><span class="badge">For Rent</span><h3>Commercial Shop</h3><div class="price">PKR 150,000 / month</div><p class="meta">Main Boulevard · Ground Floor · Lahore</p></div></div>
-<div class="card property glass reveal-right delay2"><div class="photo">🏗️</div><div class="info"><span class="badge">Construction</span><h3>Build Your Home</h3><div class="price">Free Estimate</div><p class="meta">Grey Structure · Full Finishing</p></div></div>
-</div>
-<p class="note reveal-up">Sample listings and prices are for demonstration only.</p>
-</section>
+  <section id="properties">
+    <h2 class="reveal-up">Featured Properties in Lahore</h2>
+    <p class="sub reveal-up">Sample listings for demonstration. Contact us for real availability and prices.</p>
+    <div class="grid">
+      <div class="card property glass reveal-left"><div class="photo">🏡</div><div class="info"><span class="badge">For Sale</span><h3>10 Marla Modern House</h3><div class="price">PKR 4.5 Crore</div><p class="meta">5 Bed · 5 Bath · DHA Phase 6, Lahore</p></div></div>
+      <div class="card property glass reveal-up delay1"><div class="photo">🏢</div><div class="info"><span class="badge">For Sale</span><h3>2 Bed Luxury Apartment</h3><div class="price">PKR 1.8 Crore</div><p class="meta">2 Bed · 2 Bath · Gulberg, Lahore</p></div></div>
+      <div class="card property glass reveal-right delay2"><div class="photo">🌳</div><div class="info"><span class="badge">Plot</span><h3>1 Kanal Residential Plot</h3><div class="price">PKR 3.2 Crore</div><p class="meta">Corner · Park Facing · Bahria Town, Lahore</p></div></div>
+      <div class="card property glass reveal-left"><div class="photo">🏘️</div><div class="info"><span class="badge">For Rent</span><h3>5 Marla Family House</h3><div class="price">PKR 85,000 / month</div><p class="meta">3 Bed · 3 Bath · Wapda Town, Lahore</p></div></div>
+      <div class="card property glass reveal-up delay1"><div class="photo">🏬</div><div class="info"><span class="badge">For Rent</span><h3>Commercial Shop</h3><div class="price">PKR 150,000 / month</div><p class="meta">Main Boulevard · Ground Floor · Lahore</p></div></div>
+      <div class="card property glass reveal-right delay2"><div class="photo">🏗️</div><div class="info"><span class="badge">Construction</span><h3>Build Your Home</h3><div class="price">Free Estimate</div><p class="meta">Grey Structure · Full Finishing</p></div></div>
+    </div>
+    <p class="note reveal-up">Sample listings and prices are for demonstration only.</p>
+  </section>
 
-<section id="why">
-<h2 class="reveal-up">Why Choose ASAD Associates</h2>
-<p class="sub reveal-up">Buying property is a big decision. We make it safe, clear, and stress-free.</p>
-<div class="grid">
-<div class="card glass reveal-left"><div class="icon">✅</div><h3>Reliable and Honest</h3><p>Every property is verified before we show it to you. No hidden dealings.</p></div>
-<div class="card glass reveal-up delay1"><div class="icon">🏷️</div><h3>Best Market Prices</h3><p>Fair, competitive rates for buying, selling, and renting, with honest negotiation on your side.</p></div>
-<div class="card glass reveal-right delay2"><div class="icon">🤝</div><h3>End-to-End Support</h3><p>One team for buying, renting, and building, so you never have to chase multiple people.</p></div>
-</div>
-</section>
+  <section id="why">
+    <h2 class="reveal-up">Why Choose ASAD Associates</h2>
+    <p class="sub reveal-up">Buying property is a big decision. We make it safe, clear, and stress-free.</p>
+    <div class="grid">
+      <div class="card glass reveal-left"><div class="icon">✅</div><h3>Reliable and Honest</h3><p>Every property is verified before we show it to you. No hidden dealings.</p></div>
+      <div class="card glass reveal-up delay1"><div class="icon">🏷️</div><h3>Best Market Prices</h3><p>Fair, competitive rates for buying, selling, and renting, with honest negotiation on your side.</p></div>
+      <div class="card glass reveal-right delay2"><div class="icon">🤝</div><h3>End-to-End Support</h3><p>One team for buying, renting, and building, so you never have to chase multiple people.</p></div>
+    </div>
+  </section>
 
-<section id="projects">
-<h2 class="reveal-up">Popular Housing Projects in Lahore</h2>
-<p class="sub reveal-up">A look at well-known Lahore societies. Ask us for guidance on any of them.</p>
-<div class="grid">
-<div class="project glass reveal-left"><div class="city">East and South Lahore</div><h3>DHA Lahore</h3><p>A first choice for serious buyers with reliable prices and strong secondary-market activity. Phases 6, 7, 8 and 9 Prism are seeing modern residential and commercial construction.</p></div>
-<div class="project glass reveal-up delay1"><div class="city">Off Canal Bank Road</div><h3>Bahria Town Lahore</h3><p>An LDA-approved, fully developed society with parks, shopping centres, schools, and hospitals, popular with families and investors seeking rental income.</p></div>
-<div class="project glass reveal-right delay2"><div class="city">Lahore</div><h3>Lake City</h3><p>Known for luxury and long-term value, with quality roads, golf facilities, schools, healthcare, and commercial areas.</p></div>
-<div class="project glass reveal-left"><div class="city">Lahore</div><h3>LDA City</h3><p>One of Lahore's largest planned residential developments, drawing both homeowners and investors.</p></div>
-<div class="project glass reveal-up delay1"><div class="city">Near DHA Phase 9 and 10</div><h3>Central Park Housing Scheme</h3><p>A gated, developed community with wide internal roads and a well-kept central park, with strong location value.</p></div>
-<div class="project glass reveal-right delay2"><div class="city">Lahore</div><h3>Wapda Town, LDA Avenue 1 and Al Kabir Town</h3><p>Wapda Town suits families, while LDA Avenue 1 and Al Kabir Town offer more affordable entry points for first-time buyers.</p></div>
-</div>
-<p class="note reveal-up">Always verify documents, NOCs, and approvals before buying any property.</p>
-</section>
+  <section id="projects">
+    <h2 class="reveal-up">Popular Housing Projects in Lahore</h2>
+    <p class="sub reveal-up">A look at well-known Lahore societies. Ask us for guidance on any of them.</p>
+    <div class="grid">
+      <div class="project glass reveal-left"><div class="city">East and South Lahore</div><h3>DHA Lahore</h3><p>A first choice for serious buyers with reliable prices and strong secondary-market activity. Phases 6, 7, 8 and 9 Prism are seeing modern residential and commercial construction.</p></div>
+      <div class="project glass reveal-up delay1"><div class="city">Off Canal Bank Road</div><h3>Bahria Town Lahore</h3><p>An LDA-approved, fully developed society with parks, shopping centres, schools, and hospitals, popular with families and investors seeking rental income.</p></div>
+      <div class="project glass reveal-right delay2"><div class="city">Lahore</div><h3>Lake City</h3><p>Known for luxury and long-term value, with quality roads, golf facilities, schools, healthcare, and commercial areas.</p></div>
+      <div class="project glass reveal-left"><div class="city">Lahore</div><h3>LDA City</h3><p>One of Lahore's largest planned residential developments, drawing both homeowners and investors.</p></div>
+      <div class="project glass reveal-up delay1"><div class="city">Near DHA Phase 9 and 10</div><h3>Central Park Housing Scheme</h3><p>A gated, developed community with wide internal roads and a well-kept central park, with strong location value.</p></div>
+      <div class="project glass reveal-right delay2"><div class="city">Lahore</div><h3>Wapda Town, LDA Avenue 1 and Al Kabir Town</h3><p>Wapda Town suits families, while LDA Avenue 1 and Al Kabir Town offer more affordable entry points for first-time buyers.</p></div>
+    </div>
+    <p class="note reveal-up">Always verify documents, NOCs, and approvals before buying any property.</p>
+  </section>
 
-<section id="process">
-<h2 class="reveal-up">How Buying Works With Us</h2>
-<p class="sub reveal-up">A simple, transparent journey from first call to final registry.</p>
-<div class="step glass reveal-left"><div class="num">1</div><div><h3>Tell Us Your Needs</h3><p>Share your budget, preferred area of Lahore, and the type of property you want.</p></div></div>
-<div class="step glass reveal-right"><div class="num">2</div><div><h3>Visit and Compare</h3><p>We arrange site visits to verified options so you can compare with confidence.</p></div></div>
-<div class="step glass reveal-left"><div class="num">3</div><div><h3>Verify and Negotiate</h3><p>We check the documents and negotiate the best price on your behalf.</p></div></div>
-<div class="step glass reveal-right"><div class="num">4</div><div><h3>Transfer and Handover</h3><p>We support the transfer process, and if you want to build, our construction team takes over.</p></div></div>
-</section>
+  <section id="process">
+    <h2 class="reveal-up">How Buying Works With Us</h2>
+    <p class="sub reveal-up">A simple, transparent journey from first call to final registry.</p>
+    <div class="step glass reveal-left"><div class="num">1</div><div><h3>Tell Us Your Needs</h3><p>Share your budget, preferred area of Lahore, and the type of property you want.</p></div></div>
+    <div class="step glass reveal-right"><div class="num">2</div><div><h3>Visit and Compare</h3><p>We arrange site visits to verified options so you can compare with confidence.</p></div></div>
+    <div class="step glass reveal-left"><div class="num">3</div><div><h3>Verify and Negotiate</h3><p>We check the documents and negotiate the best price on your behalf.</p></div></div>
+    <div class="step glass reveal-right"><div class="num">4</div><div><h3>Transfer and Handover</h3><p>We support the transfer process, and if you want to build, our construction team takes over.</p></div></div>
+  </section>
 
-<section id="testimonials">
-<h2 class="reveal-up">What Our Clients Say</h2>
-<p class="sub reveal-up">Sample feedback shown for demonstration.</p>
-<div class="grid">
-<div class="quote glass reveal-left"><p>"They showed me only verified plots and the documents were all clear. I felt safe throughout."</p><strong>Bilal A., Lahore</strong></div>
-<div class="quote glass reveal-up delay1"><p>"From buying the plot to building the house, one team handled everything. Great experience."</p><strong>Fatima S., Lahore</strong></div>
-<div class="quote glass reveal-right delay2"><p>"I live abroad and they managed the entire purchase for me. Honest and professional."</p><strong>Imran K., Dubai</strong></div>
-</div>
-</section>
+  <section id="testimonials">
+    <h2 class="reveal-up">What Our Clients Say</h2>
+    <p class="sub reveal-up">Sample feedback shown for demonstration.</p>
+    <div class="grid">
+      <div class="quote glass reveal-left"><p>"They showed me only verified plots and the documents were all clear. I felt safe throughout."</p><strong>Bilal A., Lahore</strong></div>
+      <div class="quote glass reveal-up delay1"><p>"From buying the plot to building the house, one team handled everything. Great experience."</p><strong>Fatima S., Lahore</strong></div>
+      <div class="quote glass reveal-right delay2"><p>"I live abroad and they managed the entire purchase for me. Honest and professional."</p><strong>Imran K., Dubai</strong></div>
+    </div>
+  </section>
 
-<section id="faq">
-<h2 class="reveal-up">Frequently Asked Questions</h2>
-<p class="sub reveal-up">Quick answers before you get in touch.</p>
-<details class="glass reveal-left"><summary>Do you help overseas Pakistanis buy property?</summary><p>Yes. We guide overseas clients through the whole process, including verification and transfer, without needing you to travel.</p></details>
-<details class="glass reveal-right"><summary>Do you also build homes?</summary><p>Yes. We offer construction from grey structure to full finishing, with a free estimate to begin with.</p></details>
-<details class="glass reveal-left"><summary>How do I know a property is genuine?</summary><p>We check ownership documents and approvals before listing. We also advise every buyer to confirm the NOC and records independently.</p></details>
-<details class="glass reveal-right"><summary>Can you help with renting too?</summary><p>Of course. We have homes, flats, and commercial spaces for rent in Lahore.</p></details>
-</section>
+  <section id="faq">
+    <h2 class="reveal-up">Frequently Asked Questions</h2>
+    <p class="sub reveal-up">Quick answers before you get in touch.</p>
+    <details class="glass reveal-left"><summary>Do you help overseas Pakistanis buy property?</summary><p>Yes. We guide overseas clients through the whole process, including verification and transfer, without needing you to travel.</p></details>
+    <details class="glass reveal-right"><summary>Do you also build homes?</summary><p>Yes. We offer construction from grey structure to full finishing, with a free estimate to begin with.</p></details>
+    <details class="glass reveal-left"><summary>How do I know a property is genuine?</summary><p>We check ownership documents and approvals before listing. We also advise every buyer to confirm the NOC and records independently.</p></details>
+    <details class="glass reveal-right"><summary>Can you help with renting too?</summary><p>Of course. We have homes, flats, and commercial spaces for rent in Lahore.</p></details>
+  </section>
 
-<section id="contact">
-<h2 class="reveal-up">Let's Find Your Property</h2>
-<p class="sub reveal-up">Tell us what you are looking for and our team will contact you within one working day.</p>
-<form class="glass reveal-zoom">
-<input type="text" placeholder="Your name" required>
-<input type="tel" placeholder="Phone / WhatsApp number" required>
-<select>
-<option>I want to buy</option>
-<option>I want to sell</option>
-<option>I want to rent</option>
-<option>I want to construct a home</option>
-</select>
-<textarea rows="4" placeholder="Tell us your area, budget, and requirements"></textarea>
-<button type="submit">Send Inquiry</button>
-</form>
-</section>
+  <section id="contact">
+    <h2 class="reveal-up">Let's Find Your Property</h2>
+    <p class="sub reveal-up">Tell us what you are looking for and our team will contact you within one working day.</p>
+    <form class="glass reveal-zoom">
+      <input type="text" placeholder="Your name" required>
+      <input type="tel" placeholder="Phone / WhatsApp number" required>
+      <select>
+        <option>I want to buy</option>
+        <option>I want to sell</option>
+        <option>I want to rent</option>
+        <option>I want to construct a home</option>
+      </select>
+      <textarea rows="4" placeholder="Tell us your area, budget, and requirements"></textarea>
+      <button type="submit">Send Inquiry</button>
+    </form>
+  </section>
 
-<footer class="glass reveal-up">
-<div class="foot-brand">ASAD Associates</div>
-<p style="opacity:0.9; margin-top:6px;">Your trusted property partner in Lahore</p>
-<p style="opacity:0.85; margin-top:6px;">Sale · Purchase · Rent · Construction</p>
-<p style="opacity:0.8; margin-top:6px;">&copy; 2026 ASAD Associates. Demo website.</p>
-</footer>
+  <footer class="glass reveal-up">
+    <div class="foot-brand">ASAD Associates</div>
+    <p style="opacity:0.9; margin-top:6px;">Your trusted property partner in Lahore</p>
+    <p style="opacity:0.85; margin-top:6px;">Sale · Purchase · Rent · Construction</p>
+    <p style="opacity:0.8; margin-top:6px;">&copy; 2026 ASAD Associates. Demo website.</p>
+  </footer>
 
-<script>
-// Scroll reveal and number counters
-const observer = new IntersectionObserver((entries) => {
-entries.forEach((entry) => {
-if (entry.isIntersecting) {
-entry.target.classList.add("visible");
-const counter = entry.target.querySelector(".number");
-if (counter && !counter.dataset.done) { counter.dataset.done = "true"; countUp(counter); }
-}
-});
-}, { threshold: 0.15 });
-document.querySelectorAll(".reveal-right, .reveal-left, .reveal-up, .reveal-zoom").forEach((el) => observer.observe(el));
+  <script>
+    // Scroll reveal and number counters
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          const counter = entry.target.querySelector(".number");
+          if (counter && !counter.dataset.done) { counter.dataset.done = "true"; countUp(counter); }
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".reveal-right, .reveal-left, .reveal-up, .reveal-zoom").forEach((el) => observer.observe(el));
 
-function countUp(el) {
-const target = +el.dataset.target;
-let current = 0;
-const step = Math.max(1, Math.ceil(target / 80));
-const timer = setInterval(() => {
-current += step;
-if (current >= target) { current = target; clearInterval(timer); }
-el.textContent = current + (target >= 100 ? "+" : "");
-}, 25);
-}
-</script>
+    function countUp(el) {
+      const target = +el.dataset.target;
+      let current = 0;
+      const step = Math.max(1, Math.ceil(target / 80));
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) { current = target; clearInterval(timer); }
+        el.textContent = current + (target >= 100 ? "+" : "");
+      }, 25);
+    }
+  </script>
 
-<!-- 3D house that rotates as you scroll -->
-<script type="module">
-import * as THREE from "three";
+  <!-- Spanish villa: rotates ONLY when you scroll -->
+  <script type="module">
+    import * as THREE from "three";
 
-const canvas = document.getElementById("house3d");
-const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.shadowMap.enabled = true;
+    const canvas = document.getElementById("house3d");
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-camera.position.set(0, 3.2, 11);
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
 
-// Lights
-scene.add(new THREE.AmbientLight(0xffffff, 0.9));
-const sun = new THREE.DirectionalLight(0xfff4e0, 1.4);
-sun.position.set(6, 10, 6);
-sun.castShadow = true;
-scene.add(sun);
+    // Warm Mediterranean lighting
+    scene.add(new THREE.HemisphereLight(0xcfeaff, 0xd9c4a0, 0.8));
+    const sun = new THREE.DirectionalLight(0xfff0d6, 2.2);
+    sun.position.set(8, 12, 7);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.camera.left = -10; sun.shadow.camera.right = 10;
+    sun.shadow.camera.top = 10; sun.shadow.camera.bottom = -10;
+    sun.shadow.bias = -0.0004;
+    scene.add(sun);
 
-const house = new THREE.Group();
+    const villa = new THREE.Group();
 
-const wallMat = new THREE.MeshStandardMaterial({ color: 0xf4fbfa, roughness: 0.6 });
-const roofMat = new THREE.MeshStandardMaterial({ color: 0x2f7f86, roughness: 0.5 });
-const glassMat = new THREE.MeshStandardMaterial({ color: 0x9fe6ff, transparent: true, opacity: 0.75, roughness: 0.1, metalness: 0.4 });
-const doorMat = new THREE.MeshStandardMaterial({ color: 0x1f5f66, roughness: 0.5 });
-const groundMat = new THREE.MeshStandardMaterial({ color: 0xcdf3ea, roughness: 0.9 });
-const grassMat = new THREE.MeshStandardMaterial({ color: 0x7fcf9f, roughness: 0.9 });
+    // Materials
+    const stucco = new THREE.MeshStandardMaterial({ color: 0xf6efe2, roughness: 0.92 });
+    const stuccoWarm = new THREE.MeshStandardMaterial({ color: 0xeadbc2, roughness: 0.95 });
+    const terracotta = new THREE.MeshStandardMaterial({ color: 0xb8553a, roughness: 0.8 });
+    const terracottaDark = new THREE.MeshStandardMaterial({ color: 0x9c4530, roughness: 0.85 });
+    const wood = new THREE.MeshStandardMaterial({ color: 0x5a3a24, roughness: 0.7 });
+    const ironDark = new THREE.MeshStandardMaterial({ color: 0x22252a, roughness: 0.5, metalness: 0.6 });
+    const glass = new THREE.MeshStandardMaterial({ color: 0x2b4a5e, roughness: 0.08, metalness: 0.7 });
+    const stone = new THREE.MeshStandardMaterial({ color: 0xd8cdb8, roughness: 0.9 });
+    const paving = new THREE.MeshStandardMaterial({ color: 0xcdbb9c, roughness: 0.95 });
+    const grass = new THREE.MeshStandardMaterial({ color: 0x6f9a52, roughness: 1 });
+    const water = new THREE.MeshStandardMaterial({ color: 0x4fb8c8, roughness: 0.05, metalness: 0.2 });
 
-function box(w, h, d, mat, x, y, z) {
-const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
-m.position.set(x, y, z); m.castShadow = true; m.receiveShadow = true;
-house.add(m); return m;
-}
+    function box(w, h, d, mat, x, y, z, parent = villa) {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+      m.position.set(x, y, z); m.castShadow = true; m.receiveShadow = true;
+      parent.add(m); return m;
+    }
 
-// Base platform and lawn
-const platform = new THREE.Mesh(new THREE.CylinderGeometry(6, 6, 0.3, 48), groundMat);
-platform.position.y = -0.15; platform.receiveShadow = true; house.add(platform);
-const lawn = new THREE.Mesh(new THREE.CylinderGeometry(5.6, 5.6, 0.12, 48), grassMat);
-lawn.position.y = 0.03; house.add(lawn);
+    // Ground
+    const ground = new THREE.Mesh(new THREE.CylinderGeometry(8, 8.3, 0.4, 64), grass);
+    ground.position.y = -0.2; ground.receiveShadow = true; villa.add(ground);
+    box(9.6, 0.1, 6.4, paving, 0, 0.05, 1.2);
 
-// Main body, ground floor and upper floor
-box(4.4, 1.9, 3.4, wallMat, 0, 1.0, 0);
-box(3.4, 1.7, 3.0, wallMat, -0.3, 2.8, 0);
+    // Tiled hip roof built from a pyramid shape
+    function hipRoof(w, d, h, x, y, z, mat = terracotta) {
+      const geo = new THREE.ConeGeometry(1, h, 4, 1);
+      geo.rotateY(Math.PI / 4);
+      const roof = new THREE.Mesh(geo, mat);
+      roof.scale.set(w / Math.SQRT2, 1, d / Math.SQRT2);
+      roof.position.set(x, y + h / 2, z);
+      roof.castShadow = true; roof.receiveShadow = true;
+      villa.add(roof);
+      box(w + 0.25, 0.14, d + 0.25, terracottaDark, x, y - 0.02, z);
+      return roof;
+    }
 
-// Flat modern roofs
-box(4.7, 0.18, 3.7, roofMat, 0, 2.0, 0);
-box(3.7, 0.18, 3.3, roofMat, -0.3, 3.7, 0);
+    // Arched window (frame, dark glass, round top, shutters)
+    function archWindow(x, y, z, w = 0.62, h = 0.95, ry = 0) {
+      const g = new THREE.Group();
+      const frame = new THREE.Mesh(new THREE.BoxGeometry(w + 0.16, h + 0.16, 0.08), stone);
+      g.add(frame);
+      const pane = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.1), glass);
+      g.add(pane);
+      const archFrame = new THREE.Mesh(new THREE.CylinderGeometry((w + 0.16) / 2, (w + 0.16) / 2, 0.08, 24, 1, false, 0, Math.PI), stone);
+      archFrame.rotation.x = Math.PI / 2; archFrame.rotation.z = Math.PI / 2;
+      archFrame.position.y = (h + 0.16) / 2;
+      g.add(archFrame);
+      const archGlass = new THREE.Mesh(new THREE.CylinderGeometry(w / 2, w / 2, 0.1, 24, 1, false, 0, Math.PI), glass);
+      archGlass.rotation.x = Math.PI / 2; archGlass.rotation.z = Math.PI / 2;
+      archGlass.position.y = h / 2;
+      g.add(archGlass);
+      const sl = new THREE.Mesh(new THREE.BoxGeometry(0.22, h + 0.1, 0.05), wood);
+      sl.position.set(-(w / 2 + 0.3), 0, 0.03); g.add(sl);
+      const sr = sl.clone(); sr.position.x = w / 2 + 0.3; g.add(sr);
+      for (let i = -1; i <= 1; i++) {
+        const bar = new THREE.Mesh(new THREE.BoxGeometry(0.025, h, 0.03), ironDark);
+        bar.position.set(i * (w / 3), 0, 0.07); g.add(bar);
+      }
+      g.position.set(x, y, z); g.rotation.y = ry;
+      g.traverse(o => { if (o.isMesh) { o.castShadow = true; } });
+      villa.add(g);
+    }
 
-// Side wing (garage)
-box(1.8, 1.3, 2.6, wallMat, 3.1, 0.75, 0.2);
-box(2.0, 0.16, 2.8, roofMat, 3.1, 1.45, 0.2);
+    // Main two-storey body
+    box(5.2, 2.1, 3.4, stucco, 0, 1.1, 0);
+    box(5.2, 1.7, 3.4, stuccoWarm, 0, 3.0, 0);
+    box(5.3, 0.1, 3.5, stone, 0, 2.15, 0);
+    hipRoof(5.3, 3.5, 1.35, 0, 3.85, 0);
 
-// Windows on the front
-box(0.9, 0.9, 0.06, glassMat, -1.3, 1.1, 1.72);
-box(0.9, 0.9, 0.06, glassMat, 1.3, 1.1, 1.72);
-box(0.9, 0.8, 0.06, glassMat, -1.2, 2.85, 1.52);
-box(0.9, 0.8, 0.06, glassMat, 0.5, 2.85, 1.52);
-// Door
-box(0.7, 1.3, 0.08, doorMat, 0, 0.75, 1.72);
-// Garage door
-box(1.3, 0.9, 0.06, doorMat, 3.1, 0.6, 1.52);
+    // Left wing
+    box(2.6, 1.7, 2.8, stucco, -3.7, 0.95, 0.2);
+    hipRoof(2.8, 3.0, 1.0, -3.7, 1.8, 0.2);
 
-// Trees
-function tree(x, z, s) {
-const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.1 * s, 0.14 * s, 0.9 * s, 10), new THREE.MeshStandardMaterial({ color: 0x7a5a3a }));
-trunk.position.set(x, 0.5 * s, z); house.add(trunk);
-const leaves = new THREE.Mesh(new THREE.SphereGeometry(0.6 * s, 16, 16), new THREE.MeshStandardMaterial({ color: 0x4fb37a }));
-leaves.position.set(x, 1.3 * s, z); leaves.castShadow = true; house.add(leaves);
-}
-tree(-3.6, 2.2, 1.2); tree(-3.9, -1.6, 1.0); tree(4.3, 3, 0.9); tree(-1.5, 3.6, 0.8);
+    // Right tower
+    box(1.7, 4.4, 1.7, stucco, 3.3, 2.2, -0.2);
+    box(1.8, 0.1, 1.8, stone, 3.3, 3.55, -0.2);
+    hipRoof(1.9, 1.9, 1.5, 3.3, 4.4, -0.2, terracotta);
+    archWindow(3.3, 3.0, 0.68, 0.45, 0.8);
+    archWindow(4.18, 3.0, -0.2, 0.45, 0.8, Math.PI / 2);
 
-// Driveway
-box(1.1, 0.04, 2.6, new THREE.MeshStandardMaterial({ color: 0xbfd9d6 }), 3.1, 0.09, 2.9);
-// Path to door
-box(0.7, 0.04, 2.2, new THREE.MeshStandardMaterial({ color: 0xbfd9d6 }), 0, 0.09, 2.9);
+    // Front arcade (columns and arches)
+    box(5.2, 0.16, 1.1, stone, 0, 0.12, 2.2);
+    box(5.2, 0.16, 1.2, terracottaDark, 0, 2.15, 2.15);
+    for (let i = -2; i <= 2; i++) {
+      const col = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 2.0, 18), stone);
+      col.position.set(i * 1.15, 1.15, 2.65); col.castShadow = true; villa.add(col);
+    }
+    for (let i = -2; i < 2; i++) {
+      const arch = new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.52, 0.2, 28, 1, false, 0, Math.PI), stucco);
+      arch.rotation.x = Math.PI / 2; arch.rotation.z = Math.PI / 2;
+      arch.position.set(i * 1.15 + 0.575, 2.0, 2.65); arch.castShadow = true; villa.add(arch);
+    }
 
-scene.add(house);
+    // Front door (arched, wooden)
+    box(0.95, 1.4, 0.1, wood, 0, 0.85, 1.72);
+    const doorArch = new THREE.Mesh(new THREE.CylinderGeometry(0.475, 0.475, 0.1, 24, 1, false, 0, Math.PI), wood);
+    doorArch.rotation.x = Math.PI / 2; doorArch.rotation.z = Math.PI / 2; doorArch.position.set(0, 1.55, 1.72); villa.add(doorArch);
+    box(0.03, 1.4, 0.12, ironDark, 0, 0.85, 1.74);
 
-// Sizing
-function resize() {
-const w = window.innerWidth, h = window.innerHeight;
-renderer.setSize(w, h, false);
-camera.aspect = w / h;
-// Pull the camera back on narrow screens so the house fits
-camera.position.z = w < 760 ? 15 : 11;
-camera.updateProjectionMatrix();
-}
-window.addEventListener("resize", resize);
-resize();
+    // Windows
+    archWindow(-1.6, 1.2, 1.74);
+    archWindow(1.6, 1.2, 1.74);
+    archWindow(-1.7, 3.0, 1.74);
+    archWindow(0, 3.0, 1.74);
+    archWindow(1.7, 3.0, 1.74);
+    archWindow(-3.7, 1.0, 1.62, 0.55, 0.85);
+    archWindow(-4.9, 1.0, 0.2, 0.55, 0.85, -Math.PI / 2);
 
-// Scroll-driven rotation, zoom and tilt
-let targetProgress = 0, progress = 0;
-function onScroll() {
-const max = document.documentElement.scrollHeight - window.innerHeight;
-targetProgress = max > 0 ? window.scrollY / max : 0;
-}
-window.addEventListener("scroll", onScroll, { passive: true });
-onScroll();
+    // Upper balcony with iron rail
+    box(1.9, 0.1, 0.5, stone, 0, 2.55, 1.95);
+    for (let i = 0; i < 10; i++) box(0.03, 0.55, 0.03, ironDark, -0.85 + i * 0.19, 2.88, 2.17);
+    box(1.9, 0.04, 0.04, ironDark, 0, 3.16, 2.17);
 
-const clock = new THREE.Clock();
-function animate() {
-requestAnimationFrame(animate);
-const t = clock.getElapsedTime();
-progress += (targetProgress - progress) * 0.06; // smooth easing
+    // Chimney
+    box(0.4, 1.0, 0.4, stucco, -1.6, 4.5, -0.8);
+    box(0.5, 0.08, 0.5, terracottaDark, -1.6, 5.0, -0.8);
 
-// Full 1.5 turns across the page, with a gentle idle spin on top
-house.rotation.y = progress * Math.PI * 3 + t * 0.12 + 0.5;
-house.position.y = -1.6 + Math.sin(t * 0.8) * 0.08;
-// Camera swoops from high angle to low angle as you scroll
-camera.position.y = 4.2 - progress * 2.2;
-camera.lookAt(0, 1.4, 0);
-// Shift the house left and right so it sits beside the text panels
-house.position.x = Math.sin(progress * Math.PI * 4) * 1.6;
+    // Courtyard fountain
+    const basin = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.9, 0.35, 32), stone);
+    basin.position.set(0, 0.25, 4.6); basin.castShadow = true; basin.receiveShadow = true; villa.add(basin);
+    const pool = new THREE.Mesh(new THREE.CylinderGeometry(0.68, 0.68, 0.05, 32), water);
+    pool.position.set(0, 0.42, 4.6); villa.add(pool);
+    const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.1, 0.6, 12), stone);
+    pillar.position.set(0, 0.65, 4.6); villa.add(pillar);
 
-renderer.render(scene, camera);
-}
-animate();
-</script>
-
-</body>
-</html>
+    // Low garden walls
+    box(3.2, 0.5, 0.18, stucco, -3.2, 0.25, 4.9);
+    box(3.2, 0.5, 0.18, stucco,
