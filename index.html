@@ -10,147 +10,216 @@ html { scroll-behavior: smooth; }
 body {
 font-family: -apple-system, "SF Pro Display", "Segoe UI", Arial, sans-serif;
 line-height: 1.6;
-color: #fff;
+color: #f5f5f7;
 overflow-x: hidden;
-background: linear-gradient(135deg, #1e3a8a, #7c3aed, #ec4899, #f59e0b);
-background-size: 400% 400%;
-animation: gradientShift 18s ease infinite;
 min-height: 100vh;
-}
-@keyframes gradientShift {
-0% { background-position: 0% 50%; }
-50% { background-position: 100% 50%; }
-100% { background-position: 0% 50%; }
+/* Half gray, half white diagonal shading */
+background: linear-gradient(115deg, #1c1c1e 0%, #2c2c2e 30%, #6b6b70 55%, #c7c7cc 78%, #f2f2f7 100%);
+background-attachment: fixed;
 }
 
-/* Floating blurred shapes behind the glass */
-.blob { position: fixed; border-radius: 50%; filter: blur(60px); opacity: 0.55; z-index: -1; animation: float 12s ease-in-out infinite; }
-.blob.one { width: 350px; height: 350px; background: #38bdf8; top: 5%; left: -5%; }
-.blob.two { width: 300px; height: 300px; background: #f472b6; top: 40%; right: -5%; animation-delay: -4s; }
-.blob.three { width: 400px; height: 400px; background: #fbbf24; bottom: -10%; left: 30%; animation-delay: -8s; }
+/* ---------- Graphic background layers ---------- */
+.bg-grid {
+position: fixed; inset: 0; z-index: -3;
+background-image:
+linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+background-size: 60px 60px;
+animation: gridMove 30s linear infinite;
+}
+@keyframes gridMove { from { background-position: 0 0; } to { background-position: 60px 60px; } }
+
+.bg-mountains {
+position: fixed; bottom: 0; left: 0; width: 100%; height: 55vh; z-index: -2; opacity: 0.55;
+}
+
+.orb { position: fixed; border-radius: 50%; filter: blur(70px); z-index: -2; animation: float 14s ease-in-out infinite; }
+.orb.one { width: 380px; height: 380px; background: rgba(255,255,255,0.35); top: 8%; left: -6%; }
+.orb.two { width: 320px; height: 320px; background: rgba(150,150,160,0.5); top: 45%; right: -6%; animation-delay: -5s; }
+.orb.three { width: 420px; height: 420px; background: rgba(230,230,240,0.3); bottom: -12%; left: 35%; animation-delay: -9s; }
 @keyframes float {
 0%, 100% { transform: translate(0, 0) scale(1); }
 33% { transform: translate(40px, -50px) scale(1.1); }
 66% { transform: translate(-30px, 30px) scale(0.95); }
 }
 
-/* The glass effect */
+/* ---------- Strong glass effect ---------- */
 .glass {
-background: rgba(255, 255, 255, 0.14);
-backdrop-filter: blur(24px) saturate(180%);
--webkit-backdrop-filter: blur(24px) saturate(180%);
-border: 1px solid rgba(255, 255, 255, 0.3);
+background: linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04));
+backdrop-filter: blur(30px) saturate(160%) brightness(1.05);
+-webkit-backdrop-filter: blur(30px) saturate(160%) brightness(1.05);
+border: 1px solid rgba(255,255,255,0.28);
+border-top: 1px solid rgba(255,255,255,0.6);
+border-left: 1px solid rgba(255,255,255,0.45);
 border-radius: 28px;
-box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.5);
+box-shadow:
+0 10px 40px rgba(0,0,0,0.35),
+inset 0 1px 1px rgba(255,255,255,0.6),
+inset 0 -1px 1px rgba(255,255,255,0.1);
+position: relative;
+overflow: hidden;
 }
+/* Shiny highlight that sweeps across glass on hover */
+.glass::after {
+content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
+background: linear-gradient(100deg, transparent, rgba(255,255,255,0.28), transparent);
+transform: skewX(-20deg);
+transition: left 0.9s ease;
+pointer-events: none;
+}
+.glass:hover::after { left: 140%; }
 
-/* Floating glass navigation bar */
+/* ---------- Navigation ---------- */
 nav {
 position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
-width: calc(100% - 32px); max-width: 900px; z-index: 100;
+width: calc(100% - 32px); max-width: 920px; z-index: 100;
 display: flex; justify-content: space-between; align-items: center;
-padding: 12px 24px; border-radius: 50px;
+padding: 10px 14px 10px 24px; border-radius: 60px;
 animation: dropIn 0.9s ease-out;
 }
 @keyframes dropIn { from { opacity: 0; transform: translate(-50%, -80px); } to { opacity: 1; transform: translate(-50%, 0); } }
 nav .logo { font-weight: 700; font-size: 1.1rem; }
-nav .links a { color: #fff; text-decoration: none; margin-left: 18px; font-size: 0.95rem; opacity: 0.9; transition: opacity 0.3s; }
-nav .links a:hover { opacity: 1; text-shadow: 0 0 10px #fff; }
+nav .links { display: flex; gap: 6px; }
+nav .links a {
+color: #fff; text-decoration: none; font-size: 0.9rem; padding: 8px 16px; border-radius: 40px;
+background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
+transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+nav .links a:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(255,255,255,0.2); }
 
-/* Hero */
-.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 120px 20px 60px; }
-.hero h1 { font-size: clamp(2.2rem, 6vw, 4.5rem); margin-bottom: 18px; animation: slideInRight 1s ease-out; }
-.hero p { font-size: 1.2rem; max-width: 600px; animation: slideInRight 1.2s ease-out; }
-.hero .tag { padding: 8px 20px; border-radius: 50px; margin-bottom: 24px; font-size: 0.9rem; animation: slideInLeft 1s ease-out; }
+/* ---------- Glass buttons (very transparent) ---------- */
+.button, form button {
+display: inline-block; padding: 16px 38px; border-radius: 60px; color: #fff; text-decoration: none;
+font-weight: 600; font-size: 1rem; cursor: pointer; position: relative; overflow: hidden;
+background: linear-gradient(145deg, rgba(255,255,255,0.22), rgba(255,255,255,0.03));
+border: 1px solid rgba(255,255,255,0.45);
+border-top: 1px solid rgba(255,255,255,0.8);
+backdrop-filter: blur(18px) saturate(170%);
+-webkit-backdrop-filter: blur(18px) saturate(170%);
+box-shadow: 0 8px 28px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.7);
+transition: transform 0.35s, background 0.35s, box-shadow 0.35s;
+}
+.button::after, form button::after {
+content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), transparent);
+transform: skewX(-20deg); transition: left 0.7s ease;
+}
+.button:hover::after, form button:hover::after { left: 150%; }
+.button:hover, form button:hover {
+transform: translateY(-4px) scale(1.06);
+background: linear-gradient(145deg, rgba(255,255,255,0.35), rgba(255,255,255,0.08));
+box-shadow: 0 14px 36px rgba(0,0,0,0.4), 0 0 28px rgba(255,255,255,0.35), inset 0 1px 2px rgba(255,255,255,0.9);
+}
+.button:active, form button:active { transform: scale(0.97); }
+.hero .button { margin-top: 30px; animation: slideInRight 1.4s ease-out, pulse 2.8s ease-in-out infinite 2s; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 8px 28px rgba(0,0,0,0.3), 0 0 0 0 rgba(255,255,255,0.45), inset 0 1px 2px rgba(255,255,255,0.7); } 50% { box-shadow: 0 8px 28px rgba(0,0,0,0.3), 0 0 0 20px rgba(255,255,255,0), inset 0 1px 2px rgba(255,255,255,0.7); } }
+
+/* ---------- Hero ---------- */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 130px 20px 60px; }
+.hero h1 {
+font-size: clamp(2.3rem, 6vw, 4.6rem); margin-bottom: 18px; animation: slideInRight 1s ease-out;
+background: linear-gradient(90deg, #ffffff, #b8b8bd, #ffffff); background-size: 200% auto;
+-webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+animation: slideInRight 1s ease-out, shine 6s linear infinite;
+}
+@keyframes shine { to { background-position: 200% center; } }
+.hero p { font-size: 1.2rem; max-width: 620px; color: #e5e5ea; animation: slideInRight 1.2s ease-out; }
+.hero .tag { padding: 8px 22px; border-radius: 50px; margin-bottom: 24px; font-size: 0.9rem; animation: slideInLeft 1s ease-out; }
 @keyframes slideInRight { from { opacity: 0; transform: translateX(150px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes slideInLeft { from { opacity: 0; transform: translateX(-150px); } to { opacity: 1; transform: translateX(0); } }
 
-.button {
-display: inline-block; margin-top: 30px; padding: 16px 36px; border-radius: 50px;
-color: #fff; text-decoration: none; font-weight: 600; cursor: pointer;
-background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5);
-backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
-animation: slideInRight 1.4s ease-out, pulse 2.5s ease-in-out infinite 2s;
-}
-.button:hover { transform: scale(1.1); background: rgba(255,255,255,0.4); box-shadow: 0 0 30px rgba(255,255,255,0.6); }
-@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.5); } 50% { box-shadow: 0 0 0 18px rgba(255,255,255,0); } }
-
-/* Sections */
-section { padding: 80px 20px; max-width: 1100px; margin: auto; text-align: center; overflow: hidden; }
+/* ---------- Sections ---------- */
+section { padding: 80px 20px; max-width: 1100px; margin: auto; text-align: center; }
 section h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 12px; }
-section .sub { opacity: 0.85; max-width: 600px; margin: 0 auto 40px; }
+section .sub { color: #e5e5ea; max-width: 600px; margin: 0 auto 40px; }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
 .card { padding: 32px 24px; transition: transform 0.4s, box-shadow 0.4s; }
-.card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 20px 40px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.6); }
+.card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 24px 50px rgba(0,0,0,0.45), inset 0 1px 2px rgba(255,255,255,0.8); }
 .card .icon { font-size: 2.6rem; margin-bottom: 12px; display: inline-block; animation: bounce 3s ease-in-out infinite; }
 .card h3 { margin-bottom: 8px; }
+.card p { color: #e5e5ea; }
 @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-/* Stats */
 .stat { padding: 30px 20px; }
 .stat .number { font-size: 3rem; font-weight: 800; }
 
-/* Process steps */
-.step { padding: 28px; text-align: left; display: flex; gap: 20px; align-items: center; margin-bottom: 20px; }
-.step .num { font-size: 2.2rem; font-weight: 800; min-width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.25); }
+.step { padding: 28px; text-align: left; display: flex; gap: 20px; align-items: center; margin-bottom: 20px; transition: transform 0.4s; }
+.step:hover { transform: translateX(10px); }
+.step .num {
+font-size: 2rem; font-weight: 800; min-width: 60px; height: 60px; border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+background: linear-gradient(145deg, rgba(255,255,255,0.3), rgba(255,255,255,0.05));
+border: 1px solid rgba(255,255,255,0.5); box-shadow: inset 0 1px 2px rgba(255,255,255,0.7);
+}
 
-/* Pricing */
 .price { font-size: 2.4rem; font-weight: 800; margin: 12px 0; }
 .price small { font-size: 1rem; font-weight: 400; opacity: 0.8; }
 .card ul { list-style: none; margin-top: 12px; }
-.card ul li { padding: 6px 0; opacity: 0.92; }
-.featured { transform: scale(1.05); border: 1px solid rgba(255,255,255,0.7); }
+.card ul li { padding: 6px 0; color: #e5e5ea; }
+.featured { border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 50px rgba(255,255,255,0.15), inset 0 1px 2px rgba(255,255,255,0.8); }
 
-/* Testimonials */
 .quote { padding: 28px; text-align: left; }
-.quote p { font-style: italic; margin-bottom: 14px; }
+.quote p { font-style: italic; margin-bottom: 14px; color: #e5e5ea; }
 .quote strong { display: block; }
 
-/* FAQ */
 details { padding: 18px 24px; margin-bottom: 14px; text-align: left; cursor: pointer; }
 details summary { font-weight: 600; }
-details p { margin-top: 10px; opacity: 0.9; }
+details p { margin-top: 10px; color: #e5e5ea; }
 
-/* Contact */
 form { max-width: 480px; margin: 0 auto; padding: 32px; display: flex; flex-direction: column; gap: 14px; }
 input, textarea {
-padding: 14px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.4);
-background: rgba(255,255,255,0.15); color: #fff; font-size: 1rem; outline: none;
+padding: 14px 18px; border-radius: 18px; color: #fff; font-size: 1rem; outline: none;
+background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
+border: 1px solid rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.5);
+box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
 transition: box-shadow 0.3s, background 0.3s;
 }
-input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.75); }
-input:focus, textarea:focus { background: rgba(255,255,255,0.25); box-shadow: 0 0 20px rgba(255,255,255,0.5); }
-form button {
-padding: 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.5);
-background: rgba(255,255,255,0.3); color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer;
-transition: transform 0.3s, background 0.3s;
-}
-form button:hover { transform: scale(1.05); background: rgba(255,255,255,0.45); }
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.65); }
+input:focus, textarea:focus { background: rgba(255,255,255,0.18); box-shadow: 0 0 22px rgba(255,255,255,0.4), inset 0 2px 8px rgba(0,0,0,0.15); }
 
 footer { margin: 40px 16px 16px; padding: 28px; text-align: center; }
 
-/* Scroll reveal animations */
-.reveal-right, .reveal-left, .reveal-up, .reveal-zoom { opacity: 0; transition: opacity 0.9s ease, transform 0.9s ease; }
+/* ---------- Scroll reveal animations ---------- */
+.reveal-right, .reveal-left, .reveal-up, .reveal-zoom { opacity: 0; transition: opacity 0.9s ease, transform 0.9s ease, box-shadow 0.4s; }
 .reveal-right { transform: translateX(140px); }
 .reveal-left { transform: translateX(-140px); }
 .reveal-up { transform: translateY(80px); }
 .reveal-zoom { transform: scale(0.7); }
 .visible { opacity: 1 !important; transform: translateX(0) translateY(0) scale(1) !important; }
-.featured.visible { transform: scale(1.05) !important; }
+.card.visible:hover { transform: translateY(-10px) scale(1.03) !important; }
+.step.visible:hover { transform: translateX(10px) !important; }
 .delay1 { transition-delay: 0.15s; }
 .delay2 { transition-delay: 0.3s; }
 .delay3 { transition-delay: 0.45s; }
 
-@media (max-width: 600px) { nav .links a { margin-left: 10px; font-size: 0.8rem; } .featured { transform: none; } }
+@media (max-width: 650px) {
+nav .logo { font-size: 0.95rem; }
+nav .links a { padding: 6px 10px; font-size: 0.75rem; }
+}
 </style>
 </head>
 <body>
 
-<div class="blob one"></div>
-<div class="blob two"></div>
-<div class="blob three"></div>
+<!-- Graphic background -->
+<div class="bg-grid"></div>
+<div class="orb one"></div>
+<div class="orb two"></div>
+<div class="orb three"></div>
+<svg class="bg-mountains" viewBox="0 0 1440 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="m1" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="#ffffff" stop-opacity="0.5"/>
+<stop offset="100%" stop-color="#8e8e93" stop-opacity="0.1"/>
+</linearGradient>
+<linearGradient id="m2" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="#d1d1d6" stop-opacity="0.45"/>
+<stop offset="100%" stop-color="#3a3a3c" stop-opacity="0.2"/>
+</linearGradient>
+</defs>
+<polygon fill="url(#m2)" points="0,400 0,260 180,140 320,250 520,90 720,260 900,150 1100,270 1280,120 1440,230 1440,400"/>
+<polygon fill="url(#m1)" points="0,400 0,320 220,210 400,310 640,170 860,320 1060,220 1260,330 1440,250 1440,400"/>
+</svg>
 
 <nav class="glass">
 <div class="logo">⛰️ Digital Climbers</div>
@@ -207,14 +276,17 @@ footer { margin: 40px 16px 16px; padding: 28px; text-align: center; }
 <div class="card glass reveal-left">
 <h3>Base Camp</h3><div class="price">$499<small>/month</small></div>
 <ul><li>✔ 2 social platforms</li><li>✔ Monthly report</li><li>✔ Basic SEO</li></ul>
+<a href="#contact" class="button" style="margin-top:20px;animation:none;">Choose Plan</a>
 </div>
 <div class="card glass featured reveal-zoom delay1">
 <h3>⭐ Summit</h3><div class="price">$999<small>/month</small></div>
 <ul><li>✔ 4 social platforms</li><li>✔ Paid ads management</li><li>✔ Advanced SEO</li><li>✔ Weekly reports</li></ul>
+<a href="#contact" class="button" style="margin-top:20px;animation:none;">Choose Plan</a>
 </div>
 <div class="card glass reveal-right delay2">
 <h3>Everest</h3><div class="price">$1,999<small>/month</small></div>
 <ul><li>✔ All platforms</li><li>✔ Dedicated manager</li><li>✔ Full content studio</li><li>✔ Priority support</li></ul>
+<a href="#contact" class="button" style="margin-top:20px;animation:none;">Choose Plan</a>
 </div>
 </div>
 </section>
@@ -259,7 +331,6 @@ const observer = new IntersectionObserver((entries) => {
 entries.forEach((entry) => {
 if (entry.isIntersecting) {
 entry.target.classList.add("visible");
-// Start counting if this is a stat box
 const counter = entry.target.querySelector(".number");
 if (counter && !counter.dataset.done) { counter.dataset.done = "true"; countUp(counter); }
 }
@@ -282,3 +353,4 @@ el.textContent = current + (target === 250 || target === 540 ? "+" : "");
 </script>
 
 </body>
+</html>
