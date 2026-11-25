@@ -400,7 +400,7 @@
     }
   </script>
 
-  <!-- Spanish villa: rotates ONLY when you scroll -->
+   <!-- Spanish villa: rotates ONLY when you scroll -->
   <script type="module">
     import * as THREE from "three";
 
@@ -416,7 +416,6 @@
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
 
-    // Warm Mediterranean lighting
     scene.add(new THREE.HemisphereLight(0xcfeaff, 0xd9c4a0, 0.8));
     const sun = new THREE.DirectionalLight(0xfff0d6, 2.2);
     sun.position.set(8, 12, 7);
@@ -429,7 +428,6 @@
 
     const villa = new THREE.Group();
 
-    // Materials
     const stucco = new THREE.MeshStandardMaterial({ color: 0xf6efe2, roughness: 0.92 });
     const stuccoWarm = new THREE.MeshStandardMaterial({ color: 0xeadbc2, roughness: 0.95 });
     const terracotta = new THREE.MeshStandardMaterial({ color: 0xb8553a, roughness: 0.8 });
@@ -442,10 +440,10 @@
     const grass = new THREE.MeshStandardMaterial({ color: 0x6f9a52, roughness: 1 });
     const water = new THREE.MeshStandardMaterial({ color: 0x4fb8c8, roughness: 0.05, metalness: 0.2 });
 
-    function box(w, h, d, mat, x, y, z, parent = villa) {
+    function box(w, h, d, mat, x, y, z) {
       const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
       m.position.set(x, y, z); m.castShadow = true; m.receiveShadow = true;
-      parent.add(m); return m;
+      villa.add(m); return m;
     }
 
     // Ground
@@ -453,26 +451,24 @@
     ground.position.y = -0.2; ground.receiveShadow = true; villa.add(ground);
     box(9.6, 0.1, 6.4, paving, 0, 0.05, 1.2);
 
-    // Tiled hip roof built from a pyramid shape
-    function hipRoof(w, d, h, x, y, z, mat = terracotta) {
+    // Tiled hip roof
+    function hipRoof(w, d, h, x, y, z, mat) {
       const geo = new THREE.ConeGeometry(1, h, 4, 1);
       geo.rotateY(Math.PI / 4);
-      const roof = new THREE.Mesh(geo, mat);
+      const roof = new THREE.Mesh(geo, mat || terracotta);
       roof.scale.set(w / Math.SQRT2, 1, d / Math.SQRT2);
       roof.position.set(x, y + h / 2, z);
       roof.castShadow = true; roof.receiveShadow = true;
       villa.add(roof);
       box(w + 0.25, 0.14, d + 0.25, terracottaDark, x, y - 0.02, z);
-      return roof;
     }
 
-    // Arched window (frame, dark glass, round top, shutters)
-    function archWindow(x, y, z, w = 0.62, h = 0.95, ry = 0) {
+    // Arched window with shutters and iron bars
+    function archWindow(x, y, z, w, h, ry) {
+      w = w || 0.62; h = h || 0.95; ry = ry || 0;
       const g = new THREE.Group();
-      const frame = new THREE.Mesh(new THREE.BoxGeometry(w + 0.16, h + 0.16, 0.08), stone);
-      g.add(frame);
-      const pane = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.1), glass);
-      g.add(pane);
+      g.add(new THREE.Mesh(new THREE.BoxGeometry(w + 0.16, h + 0.16, 0.08), stone));
+      g.add(new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.1), glass));
       const archFrame = new THREE.Mesh(new THREE.CylinderGeometry((w + 0.16) / 2, (w + 0.16) / 2, 0.08, 24, 1, false, 0, Math.PI), stone);
       archFrame.rotation.x = Math.PI / 2; archFrame.rotation.z = Math.PI / 2;
       archFrame.position.y = (h + 0.16) / 2;
@@ -489,7 +485,7 @@
         bar.position.set(i * (w / 3), 0, 0.07); g.add(bar);
       }
       g.position.set(x, y, z); g.rotation.y = ry;
-      g.traverse(o => { if (o.isMesh) { o.castShadow = true; } });
+      g.traverse(function (o) { if (o.isMesh) o.castShadow = true; });
       villa.add(g);
     }
 
@@ -507,10 +503,10 @@
     box(1.7, 4.4, 1.7, stucco, 3.3, 2.2, -0.2);
     box(1.8, 0.1, 1.8, stone, 3.3, 3.55, -0.2);
     hipRoof(1.9, 1.9, 1.5, 3.3, 4.4, -0.2, terracotta);
-    archWindow(3.3, 3.0, 0.68, 0.45, 0.8);
+    archWindow(3.3, 3.0, 0.68, 0.45, 0.8, 0);
     archWindow(4.18, 3.0, -0.2, 0.45, 0.8, Math.PI / 2);
 
-    // Front arcade (columns and arches)
+    // Front arcade
     box(5.2, 0.16, 1.1, stone, 0, 0.12, 2.2);
     box(5.2, 0.16, 1.2, terracottaDark, 0, 2.15, 2.15);
     for (let i = -2; i <= 2; i++) {
@@ -523,7 +519,7 @@
       arch.position.set(i * 1.15 + 0.575, 2.0, 2.65); arch.castShadow = true; villa.add(arch);
     }
 
-    // Front door (arched, wooden)
+    // Front door
     box(0.95, 1.4, 0.1, wood, 0, 0.85, 1.72);
     const doorArch = new THREE.Mesh(new THREE.CylinderGeometry(0.475, 0.475, 0.1, 24, 1, false, 0, Math.PI), wood);
     doorArch.rotation.x = Math.PI / 2; doorArch.rotation.z = Math.PI / 2; doorArch.position.set(0, 1.55, 1.72); villa.add(doorArch);
@@ -535,10 +531,10 @@
     archWindow(-1.7, 3.0, 1.74);
     archWindow(0, 3.0, 1.74);
     archWindow(1.7, 3.0, 1.74);
-    archWindow(-3.7, 1.0, 1.62, 0.55, 0.85);
+    archWindow(-3.7, 1.0, 1.62, 0.55, 0.85, 0);
     archWindow(-4.9, 1.0, 0.2, 0.55, 0.85, -Math.PI / 2);
 
-    // Upper balcony with iron rail
+    // Balcony
     box(1.9, 0.1, 0.5, stone, 0, 2.55, 1.95);
     for (let i = 0; i < 10; i++) box(0.03, 0.55, 0.03, ironDark, -0.85 + i * 0.19, 2.88, 2.17);
     box(1.9, 0.04, 0.04, ironDark, 0, 3.16, 2.17);
@@ -555,6 +551,93 @@
     const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.1, 0.6, 12), stone);
     pillar.position.set(0, 0.65, 4.6); villa.add(pillar);
 
-    // Low garden walls
+    // Garden walls
     box(3.2, 0.5, 0.18, stucco, -3.2, 0.25, 4.9);
-    box(3.2, 0.5, 0.18, stucco,
+    box(3.2, 0.5, 0.18, stucco, 3.2, 0.25, 4.9);
+    box(0.18, 0.5, 4.4, stucco, -4.8, 0.25, 2.7);
+    box(0.18, 0.5, 4.4, stucco, 4.8, 0.25, 2.7);
+
+    // Palm trees
+    function palm(x, z, s) {
+      const g = new THREE.Group();
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.09 * s, 0.16 * s, 2.8 * s, 10),
+        new THREE.MeshStandardMaterial({ color: 0x8a6a4a, roughness: 0.95 }));
+      trunk.position.y = 1.4 * s; trunk.castShadow = true; g.add(trunk);
+      const frondMat = new THREE.MeshStandardMaterial({ color: 0x3f8a46, roughness: 0.8, side: THREE.DoubleSide });
+      for (let i = 0; i < 9; i++) {
+        const frond = new THREE.Mesh(new THREE.ConeGeometry(0.16 * s, 1.5 * s, 4), frondMat);
+        const pivot = new THREE.Group();
+        frond.position.set(0.75 * s, 0, 0);
+        frond.rotation.z = -Math.PI / 2 + 0.5;
+        pivot.add(frond);
+        pivot.position.y = 2.85 * s;
+        pivot.rotation.y = (i / 9) * Math.PI * 2;
+        g.add(pivot);
+      }
+      g.position.set(x, 0, z); villa.add(g);
+    }
+    palm(-5.8, 3.6, 1.2); palm(5.6, 3.9, 1.0); palm(-2.8, 5.6, 0.8); palm(6.4, -1.5, 1.1);
+
+    // Cypress trees
+    function cypress(x, z, s) {
+      const c = new THREE.Mesh(new THREE.ConeGeometry(0.35 * s, 2.2 * s, 12), new THREE.MeshStandardMaterial({ color: 0x2f5f3a, roughness: 0.95 }));
+      c.position.set(x, 1.1 * s, z); c.castShadow = true; villa.add(c);
+    }
+    cypress(-6, -0.5, 1.2); cypress(-6.5, 1.0, 1.0); cypress(6, 1.2, 1.1);
+
+    // Potted plants
+    [-2.4, 2.4].forEach(function (px) {
+      const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.13, 0.28, 14), terracotta);
+      pot.position.set(px, 0.3, 2.95); pot.castShadow = true; villa.add(pot);
+      const bush = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 12), new THREE.MeshStandardMaterial({ color: 0x4f8a45 }));
+      bush.position.set(px, 0.55, 2.95); villa.add(bush);
+    });
+
+    villa.position.y = -1.9;
+    scene.add(villa);
+
+    // Sizing
+    function resize() {
+      const w = window.innerWidth, h = window.innerHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    // Scroll progress only. No idle movement.
+    function getProgress() {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      return max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    }
+
+    let current = getProgress();
+    let target = current;
+    window.addEventListener("scroll", function () { target = getProgress(); }, { passive: true });
+
+    function place(p) {
+      const narrow = window.innerWidth < 760;
+      villa.rotation.y = 0.45 + p * Math.PI * 2;
+      const dist = (narrow ? 20 : 15.5) - p * 3;
+      camera.position.set(0, 7.5 - p * 3.4, dist);
+      camera.lookAt(0, 1.6, 0);
+      villa.position.x = narrow ? 0 : Math.sin(p * Math.PI * 4) * 2.2;
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const diff = target - current;
+      if (Math.abs(diff) > 0.00005) {
+        current += diff * 0.12;
+        place(current);
+        renderer.render(scene, camera);
+      }
+    }
+    place(current);
+    renderer.render(scene, camera);
+    animate();
+  </script>
+
+</body>
+</html>
