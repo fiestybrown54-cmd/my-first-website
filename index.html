@@ -3,127 +3,120 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Digital Climbers | Digital Marketing Agency</title>
+<title>ASAD Associates | Property Sale, Purchase, Rent & Construction in Pakistan</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
 font-family: -apple-system, "SF Pro Display", "Segoe UI", Arial, sans-serif;
 line-height: 1.6;
-color: #f5f5f7;
+color: #fff8f0;
 overflow-x: hidden;
 min-height: 100vh;
-/* Half gray, half white diagonal shading */
-background: linear-gradient(115deg, #1c1c1e 0%, #2c2c2e 30%, #6b6b70 55%, #c7c7cc 78%, #f2f2f7 100%);
+background: linear-gradient(135deg, #5c3d2e 0%, #8b5a3c 25%, #c1784f 50%, #d9a066 75%, #e8c590 100%);
+background-size: 300% 300%;
 background-attachment: fixed;
+animation: warmShift 25s ease infinite;
+}
+@keyframes warmShift {
+0% { background-position: 0% 50%; }
+50% { background-position: 100% 50%; }
+100% { background-position: 0% 50%; }
 }
 
-/* ---------- Graphic background layers ---------- */
-.bg-grid {
-position: fixed; inset: 0; z-index: -3;
-background-image:
-linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
-background-size: 60px 60px;
-animation: gridMove 30s linear infinite;
-}
-@keyframes gridMove { from { background-position: 0 0; } to { background-position: 60px 60px; } }
-
-.bg-mountains {
-position: fixed; bottom: 0; left: 0; width: 100%; height: 55vh; z-index: -2; opacity: 0.55;
-}
-
-.orb { position: fixed; border-radius: 50%; filter: blur(70px); z-index: -2; animation: float 14s ease-in-out infinite; }
-.orb.one { width: 380px; height: 380px; background: rgba(255,255,255,0.35); top: 8%; left: -6%; }
-.orb.two { width: 320px; height: 320px; background: rgba(150,150,160,0.5); top: 45%; right: -6%; animation-delay: -5s; }
-.orb.three { width: 420px; height: 420px; background: rgba(230,230,240,0.3); bottom: -12%; left: 35%; animation-delay: -9s; }
+/* ---------- Colourful background shapes (give the glass something to blur) ---------- */
+.orb { position: fixed; border-radius: 50%; filter: blur(55px); z-index: -2; animation: float 15s ease-in-out infinite; }
+.orb.one { width: 420px; height: 420px; background: #e8a87c; top: 5%; left: -8%; opacity: 0.8; }
+.orb.two { width: 360px; height: 360px; background: #d4a373; top: 38%; right: -8%; opacity: 0.8; animation-delay: -5s; }
+.orb.three { width: 460px; height: 460px; background: #b5838d; bottom: -12%; left: 25%; opacity: 0.55; animation-delay: -9s; }
+.orb.four { width: 300px; height: 300px; background: #f2cc8f; top: 70%; left: -5%; opacity: 0.75; animation-delay: -12s; }
+.orb.five { width: 280px; height: 280px; background: #81b29a; top: 15%; right: 15%; opacity: 0.45; animation-delay: -7s; }
 @keyframes float {
 0%, 100% { transform: translate(0, 0) scale(1); }
-33% { transform: translate(40px, -50px) scale(1.1); }
-66% { transform: translate(-30px, 30px) scale(0.95); }
+33% { transform: translate(50px, -60px) scale(1.12); }
+66% { transform: translate(-40px, 40px) scale(0.94); }
 }
 
-/* ---------- Strong glass effect ---------- */
+/* City skyline graphic at the bottom */
+.bg-city { position: fixed; bottom: 0; left: 0; width: 100%; height: 45vh; z-index: -1; opacity: 0.35; }
+
+/* ---------- Clear, see-through glass ---------- */
 .glass {
-background: linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04));
-backdrop-filter: blur(30px) saturate(160%) brightness(1.05);
--webkit-backdrop-filter: blur(30px) saturate(160%) brightness(1.05);
-border: 1px solid rgba(255,255,255,0.28);
-border-top: 1px solid rgba(255,255,255,0.6);
-border-left: 1px solid rgba(255,255,255,0.45);
+background: linear-gradient(145deg, rgba(255,255,255,0.22), rgba(255,255,255,0.05));
+backdrop-filter: blur(16px) saturate(190%);
+-webkit-backdrop-filter: blur(16px) saturate(190%);
+border: 1px solid rgba(255,255,255,0.3);
+border-top: 1px solid rgba(255,255,255,0.7);
+border-left: 1px solid rgba(255,255,255,0.5);
 border-radius: 28px;
 box-shadow:
-0 10px 40px rgba(0,0,0,0.35),
-inset 0 1px 1px rgba(255,255,255,0.6),
-inset 0 -1px 1px rgba(255,255,255,0.1);
+0 10px 36px rgba(60,30,10,0.3),
+inset 0 1px 1px rgba(255,255,255,0.7),
+inset 0 -1px 1px rgba(255,255,255,0.15);
 position: relative;
 overflow: hidden;
 }
-/* Shiny highlight that sweeps across glass on hover */
 .glass::after {
 content: ""; position: absolute; top: 0; left: -120%; width: 60%; height: 100%;
-background: linear-gradient(100deg, transparent, rgba(255,255,255,0.28), transparent);
-transform: skewX(-20deg);
-transition: left 0.9s ease;
-pointer-events: none;
+background: linear-gradient(100deg, transparent, rgba(255,255,255,0.3), transparent);
+transform: skewX(-20deg); transition: left 0.9s ease; pointer-events: none;
 }
 .glass:hover::after { left: 140%; }
 
 /* ---------- Navigation ---------- */
 nav {
 position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
-width: calc(100% - 32px); max-width: 920px; z-index: 100;
+width: calc(100% - 32px); max-width: 980px; z-index: 100;
 display: flex; justify-content: space-between; align-items: center;
 padding: 10px 14px 10px 24px; border-radius: 60px;
 animation: dropIn 0.9s ease-out;
 }
 @keyframes dropIn { from { opacity: 0; transform: translate(-50%, -80px); } to { opacity: 1; transform: translate(-50%, 0); } }
-nav .logo { font-weight: 700; font-size: 1.1rem; }
-nav .links { display: flex; gap: 6px; }
+nav .logo { font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
+nav .links { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
 nav .links a {
-color: #fff; text-decoration: none; font-size: 0.9rem; padding: 8px 16px; border-radius: 40px;
-background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
+color: #fff; text-decoration: none; font-size: 0.88rem; padding: 8px 14px; border-radius: 40px;
+background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
 transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
 }
-nav .links a:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(255,255,255,0.2); }
+nav .links a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(255,255,255,0.25); }
 
-/* ---------- Glass buttons (very transparent) ---------- */
+/* ---------- Transparent glass buttons ---------- */
 .button, form button {
 display: inline-block; padding: 16px 38px; border-radius: 60px; color: #fff; text-decoration: none;
 font-weight: 600; font-size: 1rem; cursor: pointer; position: relative; overflow: hidden;
-background: linear-gradient(145deg, rgba(255,255,255,0.22), rgba(255,255,255,0.03));
-border: 1px solid rgba(255,255,255,0.45);
-border-top: 1px solid rgba(255,255,255,0.8);
-backdrop-filter: blur(18px) saturate(170%);
--webkit-backdrop-filter: blur(18px) saturate(170%);
-box-shadow: 0 8px 28px rgba(0,0,0,0.3), inset 0 1px 2px rgba(255,255,255,0.7);
+background: linear-gradient(145deg, rgba(255,255,255,0.28), rgba(255,255,255,0.04));
+border: 1px solid rgba(255,255,255,0.5);
+border-top: 1px solid rgba(255,255,255,0.9);
+backdrop-filter: blur(12px) saturate(190%);
+-webkit-backdrop-filter: blur(12px) saturate(190%);
+box-shadow: 0 8px 26px rgba(60,30,10,0.3), inset 0 1px 2px rgba(255,255,255,0.8);
 transition: transform 0.35s, background 0.35s, box-shadow 0.35s;
 }
 .button::after, form button::after {
 content: ""; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), transparent);
+background: linear-gradient(100deg, transparent, rgba(255,255,255,0.55), transparent);
 transform: skewX(-20deg); transition: left 0.7s ease;
 }
 .button:hover::after, form button:hover::after { left: 150%; }
 .button:hover, form button:hover {
 transform: translateY(-4px) scale(1.06);
-background: linear-gradient(145deg, rgba(255,255,255,0.35), rgba(255,255,255,0.08));
-box-shadow: 0 14px 36px rgba(0,0,0,0.4), 0 0 28px rgba(255,255,255,0.35), inset 0 1px 2px rgba(255,255,255,0.9);
+background: linear-gradient(145deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1));
+box-shadow: 0 14px 34px rgba(60,30,10,0.4), 0 0 28px rgba(255,236,200,0.5), inset 0 1px 2px rgba(255,255,255,1);
 }
 .button:active, form button:active { transform: scale(0.97); }
-.hero .button { margin-top: 30px; animation: slideInRight 1.4s ease-out, pulse 2.8s ease-in-out infinite 2s; }
-@keyframes pulse { 0%, 100% { box-shadow: 0 8px 28px rgba(0,0,0,0.3), 0 0 0 0 rgba(255,255,255,0.45), inset 0 1px 2px rgba(255,255,255,0.7); } 50% { box-shadow: 0 8px 28px rgba(0,0,0,0.3), 0 0 0 20px rgba(255,255,255,0), inset 0 1px 2px rgba(255,255,255,0.7); } }
+.hero .button { margin: 30px 8px 0; animation: slideInRight 1.4s ease-out; }
 
 /* ---------- Hero ---------- */
 .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 130px 20px 60px; }
 .hero h1 {
-font-size: clamp(2.3rem, 6vw, 4.6rem); margin-bottom: 18px; animation: slideInRight 1s ease-out;
-background: linear-gradient(90deg, #ffffff, #b8b8bd, #ffffff); background-size: 200% auto;
+font-size: clamp(2.2rem, 6vw, 4.4rem); margin-bottom: 18px; line-height: 1.15;
+background: linear-gradient(90deg, #fff8f0, #f2cc8f, #fff8f0); background-size: 200% auto;
 -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
 animation: slideInRight 1s ease-out, shine 6s linear infinite;
 }
 @keyframes shine { to { background-position: 200% center; } }
-.hero p { font-size: 1.2rem; max-width: 620px; color: #e5e5ea; animation: slideInRight 1.2s ease-out; }
+.hero p { font-size: 1.2rem; max-width: 660px; color: #fff3e3; animation: slideInRight 1.2s ease-out; }
 .hero .tag { padding: 8px 22px; border-radius: 50px; margin-bottom: 24px; font-size: 0.9rem; animation: slideInLeft 1s ease-out; }
 @keyframes slideInRight { from { opacity: 0; transform: translateX(150px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes slideInLeft { from { opacity: 0; transform: translateX(-150px); } to { opacity: 1; transform: translateX(0); } }
@@ -131,52 +124,66 @@ animation: slideInRight 1s ease-out, shine 6s linear infinite;
 /* ---------- Sections ---------- */
 section { padding: 80px 20px; max-width: 1100px; margin: auto; text-align: center; }
 section h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 12px; }
-section .sub { color: #e5e5ea; max-width: 600px; margin: 0 auto 40px; }
+section .sub { color: #fff3e3; max-width: 650px; margin: 0 auto 40px; }
 
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
 .card { padding: 32px 24px; transition: transform 0.4s, box-shadow 0.4s; }
-.card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 24px 50px rgba(0,0,0,0.45), inset 0 1px 2px rgba(255,255,255,0.8); }
+.card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 24px 50px rgba(60,30,10,0.4), inset 0 1px 2px rgba(255,255,255,0.9); }
 .card .icon { font-size: 2.6rem; margin-bottom: 12px; display: inline-block; animation: bounce 3s ease-in-out infinite; }
 .card h3 { margin-bottom: 8px; }
-.card p { color: #e5e5ea; }
+.card p { color: #fff3e3; }
 @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
 .stat { padding: 30px 20px; }
 .stat .number { font-size: 3rem; font-weight: 800; }
+
+/* Property cards */
+.property { text-align: left; padding: 0; }
+.property .photo {
+height: 170px; display: flex; align-items: center; justify-content: center; font-size: 4rem;
+background: linear-gradient(135deg, rgba(255,230,190,0.5), rgba(193,120,79,0.4));
+border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+.property .info { padding: 20px 24px 26px; }
+.property .badge { display: inline-block; padding: 4px 14px; border-radius: 30px; font-size: 0.8rem; background: rgba(255,255,255,0.25); border: 1px solid rgba(255,255,255,0.5); margin-bottom: 10px; }
+.property .price { font-size: 1.5rem; font-weight: 800; margin: 6px 0; }
+.property .meta { color: #fff3e3; font-size: 0.92rem; }
+
+/* Project cards */
+.project { padding: 28px; text-align: left; }
+.project .city { font-size: 0.85rem; opacity: 0.85; text-transform: uppercase; letter-spacing: 1px; }
+.project h3 { margin: 6px 0 10px; }
 
 .step { padding: 28px; text-align: left; display: flex; gap: 20px; align-items: center; margin-bottom: 20px; transition: transform 0.4s; }
 .step:hover { transform: translateX(10px); }
 .step .num {
 font-size: 2rem; font-weight: 800; min-width: 60px; height: 60px; border-radius: 50%;
 display: flex; align-items: center; justify-content: center;
-background: linear-gradient(145deg, rgba(255,255,255,0.3), rgba(255,255,255,0.05));
-border: 1px solid rgba(255,255,255,0.5); box-shadow: inset 0 1px 2px rgba(255,255,255,0.7);
+background: linear-gradient(145deg, rgba(255,255,255,0.35), rgba(255,255,255,0.06));
+border: 1px solid rgba(255,255,255,0.6); box-shadow: inset 0 1px 2px rgba(255,255,255,0.8);
 }
 
-.price { font-size: 2.4rem; font-weight: 800; margin: 12px 0; }
-.price small { font-size: 1rem; font-weight: 400; opacity: 0.8; }
-.card ul { list-style: none; margin-top: 12px; }
-.card ul li { padding: 6px 0; color: #e5e5ea; }
-.featured { border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 10px 50px rgba(255,255,255,0.15), inset 0 1px 2px rgba(255,255,255,0.8); }
-
 .quote { padding: 28px; text-align: left; }
-.quote p { font-style: italic; margin-bottom: 14px; color: #e5e5ea; }
+.quote p { font-style: italic; margin-bottom: 14px; color: #fff3e3; }
 .quote strong { display: block; }
 
 details { padding: 18px 24px; margin-bottom: 14px; text-align: left; cursor: pointer; }
 details summary { font-weight: 600; }
-details p { margin-top: 10px; color: #e5e5ea; }
+details p { margin-top: 10px; color: #fff3e3; }
 
-form { max-width: 480px; margin: 0 auto; padding: 32px; display: flex; flex-direction: column; gap: 14px; }
-input, textarea {
-padding: 14px 18px; border-radius: 18px; color: #fff; font-size: 1rem; outline: none;
-background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
-border: 1px solid rgba(255,255,255,0.3); border-top: 1px solid rgba(255,255,255,0.5);
-box-shadow: inset 0 2px 8px rgba(0,0,0,0.2);
+.note { font-size: 0.85rem; opacity: 0.8; margin-top: 24px; }
+
+form { max-width: 500px; margin: 0 auto; padding: 32px; display: flex; flex-direction: column; gap: 14px; }
+input, textarea, select {
+padding: 14px 18px; border-radius: 18px; color: #fff; font-size: 1rem; outline: none; font-family: inherit;
+background: linear-gradient(145deg, rgba(255,255,255,0.18), rgba(255,255,255,0.04));
+border: 1px solid rgba(255,255,255,0.35); border-top: 1px solid rgba(255,255,255,0.6);
+box-shadow: inset 0 2px 8px rgba(60,30,10,0.15);
 transition: box-shadow 0.3s, background 0.3s;
 }
-input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.65); }
-input:focus, textarea:focus { background: rgba(255,255,255,0.18); box-shadow: 0 0 22px rgba(255,255,255,0.4), inset 0 2px 8px rgba(0,0,0,0.15); }
+select option { color: #333; }
+input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.75); }
+input:focus, textarea:focus, select:focus { background: rgba(255,255,255,0.25); box-shadow: 0 0 22px rgba(255,236,200,0.5), inset 0 2px 8px rgba(60,30,10,0.1); }
 
 footer { margin: 40px 16px 16px; padding: 28px; text-align: center; }
 
@@ -193,140 +200,178 @@ footer { margin: 40px 16px 16px; padding: 28px; text-align: center; }
 .delay2 { transition-delay: 0.3s; }
 .delay3 { transition-delay: 0.45s; }
 
-@media (max-width: 650px) {
-nav .logo { font-size: 0.95rem; }
-nav .links a { padding: 6px 10px; font-size: 0.75rem; }
+@media (max-width: 700px) {
+nav { border-radius: 28px; flex-direction: column; gap: 8px; padding: 12px; }
+nav .links { justify-content: center; }
+nav .links a { padding: 5px 10px; font-size: 0.75rem; }
+.hero { padding-top: 170px; }
 }
 </style>
 </head>
 <body>
 
-<!-- Graphic background -->
-<div class="bg-grid"></div>
+<!-- Warm graphic background -->
 <div class="orb one"></div>
 <div class="orb two"></div>
 <div class="orb three"></div>
-<svg class="bg-mountains" viewBox="0 0 1440 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<linearGradient id="m1" x1="0" y1="0" x2="0" y2="1">
-<stop offset="0%" stop-color="#ffffff" stop-opacity="0.5"/>
-<stop offset="100%" stop-color="#8e8e93" stop-opacity="0.1"/>
-</linearGradient>
-<linearGradient id="m2" x1="0" y1="0" x2="0" y2="1">
-<stop offset="0%" stop-color="#d1d1d6" stop-opacity="0.45"/>
-<stop offset="100%" stop-color="#3a3a3c" stop-opacity="0.2"/>
-</linearGradient>
-</defs>
-<polygon fill="url(#m2)" points="0,400 0,260 180,140 320,250 520,90 720,260 900,150 1100,270 1280,120 1440,230 1440,400"/>
-<polygon fill="url(#m1)" points="0,400 0,320 220,210 400,310 640,170 860,320 1060,220 1260,330 1440,250 1440,400"/>
+<div class="orb four"></div>
+<div class="orb five"></div>
+<svg class="bg-city" viewBox="0 0 1440 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+<g fill="#fff3e3">
+<rect x="40" y="170" width="70" height="130"/><rect x="120" y="110" width="60" height="190"/>
+<rect x="190" y="150" width="80" height="150"/><rect x="290" y="60" width="70" height="240"/>
+<rect x="370" y="130" width="90" height="170"/><rect x="480" y="90" width="60" height="210"/>
+<rect x="560" y="160" width="80" height="140"/><rect x="660" y="40" width="75" height="260"/>
+<rect x="750" y="120" width="70" height="180"/><rect x="840" y="150" width="90" height="150"/>
+<rect x="950" y="80" width="65" height="220"/><rect x="1030" y="140" width="80" height="160"/>
+<rect x="1130" y="100" width="70" height="200"/><rect x="1220" y="160" width="90" height="140"/>
+<rect x="1320" y="120" width="80" height="180"/>
+</g>
 </svg>
 
 <nav class="glass">
-<div class="logo">⛰️ Digital Climbers</div>
+<div class="logo">🏡 ASAD Associates</div>
 <div class="links">
 <a href="#services">Services</a>
-<a href="#process">Process</a>
-<a href="#pricing">Pricing</a>
+<a href="#properties">Properties</a>
+<a href="#projects">Projects</a>
+<a href="#market">Market</a>
 <a href="#contact">Contact</a>
 </div>
 </nav>
 
 <div class="hero" id="home">
-<div class="tag glass">🚀 Digital Marketing Agency</div>
-<h1>Climb Higher with Digital Climbers</h1>
-<p>We help brands rise above the competition with smart strategy, stunning design, and results you can measure.</p>
-<a href="#contact" class="button">Start Your Climb</a>
+<div class="tag glass">🇵🇰 Trusted Property Experts in Pakistan</div>
+<h1>Find, Buy, Rent & Build Your Dream Home</h1>
+<p>ASAD Associates is your reliable partner for property sale, purchase, rent, and construction, with honest guidance and the best prices in the market.</p>
+<div>
+<a href="#properties" class="button">View Properties</a>
+<a href="#contact" class="button">Free Consultation</a>
+</div>
 </div>
 
 <section id="stats">
 <div class="grid">
-<div class="stat glass reveal-zoom"><div class="number" data-target="250">0</div><p>Happy Clients</p></div>
-<div class="stat glass reveal-zoom delay1"><div class="number" data-target="540">0</div><p>Campaigns Launched</p></div>
-<div class="stat glass reveal-zoom delay2"><div class="number" data-target="98">0</div><p>% Client Satisfaction</p></div>
-<div class="stat glass reveal-zoom delay3"><div class="number" data-target="12">0</div><p>Years Experience</p></div>
+<div class="stat glass reveal-zoom"><div class="number" data-target="500">0</div><p>Properties Sold</p></div>
+<div class="stat glass reveal-zoom delay1"><div class="number" data-target="350">0</div><p>Happy Families</p></div>
+<div class="stat glass reveal-zoom delay2"><div class="number" data-target="120">0</div><p>Homes Constructed</p></div>
+<div class="stat glass reveal-zoom delay3"><div class="number" data-target="15">0</div><p>Years of Trust</p></div>
 </div>
 </section>
 
 <section id="services">
 <h2 class="reveal-left">Our Services</h2>
-<p class="sub reveal-right">Everything your brand needs to grow online, all under one roof.</p>
+<p class="sub reveal-right">From finding the right plot to handing you the keys, we handle everything under one roof.</p>
 <div class="grid">
-<div class="card glass reveal-right"><div class="icon">🔍</div><h3>SEO Optimization</h3><p>Rank higher on Google and get found by customers who are already searching for you.</p></div>
-<div class="card glass reveal-left delay1"><div class="icon">📱</div><h3>Social Media</h3><p>Engaging content and campaigns that build a loyal community around your brand.</p></div>
-<div class="card glass reveal-right delay2"><div class="icon">🎯</div><h3>Paid Advertising</h3><p>High-converting ads on Google, Instagram, and TikTok that maximise every dollar.</p></div>
-<div class="card glass reveal-left"><div class="icon">✍️</div><h3>Content Marketing</h3><p>Blogs, videos, and stories that educate your audience and drive sales.</p></div>
-<div class="card glass reveal-right delay1"><div class="icon">💌</div><h3>Email Marketing</h3><p>Automated email journeys that turn first-time visitors into repeat buyers.</p></div>
-<div class="card glass reveal-left delay2"><div class="icon">🎨</div><h3>Branding & Design</h3><p>Logos, websites, and visual identities that make you instantly memorable.</p></div>
+<div class="card glass reveal-right"><div class="icon">🏠</div><h3>Property for Sale</h3><p>Verified houses, plots, apartments, and commercial properties with clear documents.</p></div>
+<div class="card glass reveal-left delay1"><div class="icon">🔑</div><h3>Property Purchase</h3><p>We guide you from site visit to registry so your investment stays safe and smooth.</p></div>
+<div class="card glass reveal-right delay2"><div class="icon">🏢</div><h3>Rentals</h3><p>Homes, flats, and shops for rent, matched to your budget and location.</p></div>
+<div class="card glass reveal-left"><div class="icon">🏗️</div><h3>Home Construction</h3><p>Complete grey structure and finishing work with quality material and on-time delivery.</p></div>
+<div class="card glass reveal-right delay1"><div class="icon">📑</div><h3>Documentation Help</h3><p>Ownership checks, transfer support, and file verification so there are no surprises.</p></div>
+<div class="card glass reveal-left delay2"><div class="icon">💰</div><h3>Investment Advice</h3><p>Honest advice on where your money can grow, from developing areas to established societies.</p></div>
 </div>
+</section>
+
+<section id="properties">
+<h2 class="reveal-up">Featured Properties</h2>
+<p class="sub reveal-up">A few sample listings. Contact us for the latest availability and prices.</p>
+<div class="grid">
+<div class="card property glass reveal-left"><div class="photo">🏡</div><div class="info"><span class="badge">For Sale</span><h3>10 Marla Modern House</h3><div class="price">PKR 4.5 Crore</div><p class="meta">5 Bed · 5 Bath · Islamabad</p></div></div>
+<div class="card property glass reveal-up delay1"><div class="photo">🏢</div><div class="info"><span class="badge">For Sale</span><h3>2 Bed Luxury Apartment</h3><div class="price">PKR 1.8 Crore</div><p class="meta">2 Bed · 2 Bath · Lahore</p></div></div>
+<div class="card property glass reveal-right delay2"><div class="info" style="padding-top:0"></div><div class="photo">🌳</div><div class="info"><span class="badge">Plot</span><h3>1 Kanal Residential Plot</h3><div class="price">PKR 3.2 Crore</div><p class="meta">Corner · Park Facing · Rawalpindi</p></div></div>
+<div class="card property glass reveal-left"><div class="photo">🏘️</div><div class="info"><span class="badge">For Rent</span><h3>5 Marla Family House</h3><div class="price">PKR 85,000 / month</div><p class="meta">3 Bed · 3 Bath · Lahore</p></div></div>
+<div class="card property glass reveal-up delay1"><div class="photo">🏬</div><div class="info"><span class="badge">For Rent</span><h3>Commercial Shop</h3><div class="price">PKR 150,000 / month</div><p class="meta">Main Road · Ground Floor · Karachi</p></div></div>
+<div class="card property glass reveal-right delay2"><div class="photo">🏗️</div><div class="info"><span class="badge">Construction</span><h3>Build Your Home</h3><div class="price">Free Estimate</div><p class="meta">Grey Structure · Full Finishing</p></div></div>
+</div>
+<p class="note reveal-up">Sample listings and prices are for demonstration. Real listings will be added soon.</p>
+</section>
+
+<section id="why">
+<h2 class="reveal-up">Why Choose ASAD Associates</h2>
+<p class="sub reveal-up">Buying property is a big decision. We make it safe, clear, and stress-free.</p>
+<div class="grid">
+<div class="card glass reveal-left"><div class="icon">✅</div><h3>Reliable and Honest</h3><p>Every property is verified before we show it to you. No hidden dealings.</p></div>
+<div class="card glass reveal-up delay1"><div class="icon">🏷️</div><h3>Best Market Prices</h3><p>Fair, competitive rates for buying, selling, and renting, with honest negotiation on your side.</p></div>
+<div class="card glass reveal-right delay2"><div class="icon">🤝</div><h3>End-to-End Support</h3><p>One team for buying, renting, and building, so you never have to chase multiple people.</p></div>
+</div>
+</section>
+
+<section id="projects">
+<h2 class="reveal-up">Major Housing Projects in Pakistan</h2>
+<p class="sub reveal-up">A look at some of the well-known developments shaping Pakistan's property market. Ask us for guidance on any of them.</p>
+<div class="grid">
+<div class="project glass reveal-left"><div class="city">Islamabad</div><h3>Capital Smart City</h3><p>Described as Pakistan's first smart city, located near Islamabad on the M-2 Motorway with modern infrastructure and planning.</p></div>
+<div class="project glass reveal-up delay1"><div class="city">Lahore, Karachi, Islamabad</div><h3>Bahria Town</h3><p>One of Asia's largest private housing schemes, with gated communities, golf courses, and commercial districts. Bahria Town Lahore functions like a city within a city.</p></div>
+<div class="project glass reveal-right delay2"><div class="city">Islamabad, Karachi, Lahore</div><h3>DHA</h3><p>Managed by the Pakistan Armed Forces and widely regarded as one of the most trusted housing authorities, known for consistent growth and a strong resale market.</p></div>
+<div class="project glass reveal-left"><div class="city">Islamabad</div><h3>DHA Gandhara</h3><p>Recommended among top Islamabad projects for overseas Pakistanis, with gated security and remote management portals for plot owners.</p></div>
+<div class="project glass reveal-up delay1"><div class="city">Karachi</div><h3>Bahria Town Karachi</h3><p>A huge development of over 46,000 acres with more than 60 precincts, including Bahria Icon Tower, Pakistan's tallest skyscraper at 300 metres.</p></div>
+<div class="project glass reveal-right delay2"><div class="city">Karachi</div><h3>Karachi Smart City (KSC)</h3><p>Along the M-9 Motorway, positioned as Pakistan's third smart city project following Islamabad and Lahore.</p></div>
+</div>
+</section>
+
+<section id="market">
+<h2 class="reveal-up">Pakistan Property Market Insights</h2>
+<p class="sub reveal-up">Useful facts to help you make a confident decision.</p>
+<div class="grid">
+<div class="card glass reveal-left"><div class="icon">📈</div><h3>Market Recovery</h3><p>Reports describe 2025 as a year of visible recovery, with interest rates falling to around 12% and growing investor confidence.</p></div>
+<div class="card glass reveal-up delay1"><div class="icon">🛣️</div><h3>Infrastructure Boost</h3><p>The Rawalpindi Ring Road and the Islamabad Expressway upgrades are shortening travel times and opening new premium zones.</p></div>
+<div class="card glass reveal-right delay2"><div class="icon">🌍</div><h3>Overseas Pakistanis</h3><p>Many societies now offer online portals so overseas buyers can manage their plots without being in Pakistan.</p></div>
+</div>
+<p class="note reveal-up">Market information is general and can change. Always verify documents, NOCs, and approvals before buying any property.</p>
 </section>
 
 <section id="process">
-<h2 class="reveal-up">How We Climb Together</h2>
-<p class="sub reveal-up">A simple four-step journey from idea to results.</p>
-<div class="step glass reveal-left"><div class="num">1</div><div><h3>Discover</h3><p>We learn about your business, your goals, and your audience.</p></div></div>
-<div class="step glass reveal-right"><div class="num">2</div><div><h3>Strategize</h3><p>We build a custom roadmap with clear targets and timelines.</p></div></div>
-<div class="step glass reveal-left"><div class="num">3</div><div><h3>Launch</h3><p>Our team brings the campaigns to life across every channel.</p></div></div>
-<div class="step glass reveal-right"><div class="num">4</div><div><h3>Optimize</h3><p>We track the data and keep improving until you reach the summit.</p></div></div>
-</section>
-
-<section id="pricing">
-<h2 class="reveal-up">Simple Pricing</h2>
-<p class="sub reveal-up">Pick the plan that fits your stage. Cancel any time.</p>
-<div class="grid">
-<div class="card glass reveal-left">
-<h3>Base Camp</h3><div class="price">$499<small>/month</small></div>
-<ul><li>✔ 2 social platforms</li><li>✔ Monthly report</li><li>✔ Basic SEO</li></ul>
-<a href="#contact" class="button" style="margin-top:20px;animation:none;">Choose Plan</a>
-</div>
-<div class="card glass featured reveal-zoom delay1">
-<h3>⭐ Summit</h3><div class="price">$999<small>/month</small></div>
-<ul><li>✔ 4 social platforms</li><li>✔ Paid ads management</li><li>✔ Advanced SEO</li><li>✔ Weekly reports</li></ul>
-<a href="#contact" class="button" style="margin-top:20px;animation:none;">Choose Plan</a>
-</div>
-<div class="card glass reveal-right delay2">
-<h3>Everest</h3><div class="price">$1,999<small>/month</small></div>
-<ul><li>✔ All platforms</li><li>✔ Dedicated manager</li><li>✔ Full content studio</li><li>✔ Priority support</li></ul>
-<a href="#contact" class="button" style="margin-top:20px;animation:none;">Choose Plan</a>
-</div>
-</div>
+<h2 class="reveal-up">How Buying Works With Us</h2>
+<p class="sub reveal-up">A simple, transparent journey from first call to final registry.</p>
+<div class="step glass reveal-left"><div class="num">1</div><div><h3>Tell Us Your Needs</h3><p>Share your budget, preferred city, and the type of property you want.</p></div></div>
+<div class="step glass reveal-right"><div class="num">2</div><div><h3>Visit and Compare</h3><p>We arrange site visits to verified options so you can compare with confidence.</p></div></div>
+<div class="step glass reveal-left"><div class="num">3</div><div><h3>Verify and Negotiate</h3><p>We check the documents and negotiate the best price on your behalf.</p></div></div>
+<div class="step glass reveal-right"><div class="num">4</div><div><h3>Transfer and Handover</h3><p>We support the transfer process, and if you want to build, our construction team takes over.</p></div></div>
 </section>
 
 <section id="testimonials">
-<h2 class="reveal-up">What Clients Say</h2>
-<p class="sub reveal-up">Real words from teams we have helped climb.</p>
+<h2 class="reveal-up">What Our Clients Say</h2>
+<p class="sub reveal-up">Sample feedback shown for demonstration.</p>
 <div class="grid">
-<div class="quote glass reveal-left"><p>"Our traffic tripled in just three months. Digital Climbers truly delivers."</p><strong>Sarah M., Boutique Owner</strong></div>
-<div class="quote glass reveal-up delay1"><p>"Professional, creative, and always on time. Best agency we have worked with."</p><strong>James K., Startup Founder</strong></div>
-<div class="quote glass reveal-right delay2"><p>"Their ad campaigns paid for themselves in the first month."</p><strong>Priya R., E-commerce Manager</strong></div>
+<div class="quote glass reveal-left"><p>"They showed me only verified plots and the documents were all clear. I felt safe throughout."</p><strong>Bilal A., Lahore</strong></div>
+<div class="quote glass reveal-up delay1"><p>"From buying the plot to building the house, one team handled everything. Great experience."</p><strong>Fatima S., Islamabad</strong></div>
+<div class="quote glass reveal-right delay2"><p>"I live abroad and they managed the entire purchase for me. Honest and professional."</p><strong>Imran K., Dubai</strong></div>
 </div>
 </section>
 
 <section id="faq">
 <h2 class="reveal-up">Frequently Asked Questions</h2>
-<p class="sub reveal-up">Quick answers to common questions.</p>
-<details class="glass reveal-left"><summary>How soon will I see results?</summary><p>Paid ads can bring results within days, while SEO usually takes three to six months to build momentum.</p></details>
-<details class="glass reveal-right"><summary>Do I need a long-term contract?</summary><p>No. All our plans are month to month, so you can pause or cancel any time.</p></details>
-<details class="glass reveal-left"><summary>Can you work with small businesses?</summary><p>Absolutely. We tailor every plan to your size, budget, and goals.</p></details>
+<p class="sub reveal-up">Quick answers before you get in touch.</p>
+<details class="glass reveal-left"><summary>Do you help overseas Pakistanis buy property?</summary><p>Yes. We guide overseas clients through the whole process, including verification and transfer, without needing you to travel.</p></details>
+<details class="glass reveal-right"><summary>Do you also build homes?</summary><p>Yes. We offer construction from grey structure to full finishing, with a free estimate to begin with.</p></details>
+<details class="glass reveal-left"><summary>How do I know a property is genuine?</summary><p>We check ownership documents and approvals before listing. We also advise every buyer to confirm the NOC and records independently.</p></details>
+<details class="glass reveal-right"><summary>Can you help with renting too?</summary><p>Of course. We have homes, flats, and commercial spaces for rent in several cities.</p></details>
 </section>
 
 <section id="contact">
-<h2 class="reveal-up">Ready to Start Climbing?</h2>
-<p class="sub reveal-up">Tell us about your project and we will get back to you within one business day.</p>
+<h2 class="reveal-up">Let's Find Your Property</h2>
+<p class="sub reveal-up">Tell us what you are looking for and our team will contact you within one working day.</p>
 <form class="glass reveal-zoom">
 <input type="text" placeholder="Your name" required>
-<input type="email" placeholder="Your email" required>
-<textarea rows="4" placeholder="Tell us about your project"></textarea>
-<button type="submit">Send Message</button>
+<input type="tel" placeholder="Phone / WhatsApp number" required>
+<select>
+<option>I want to buy</option>
+<option>I want to sell</option>
+<option>I want to rent</option>
+<option>I want to construct a home</option>
+</select>
+<textarea rows="4" placeholder="Tell us your city, budget, and requirements"></textarea>
+<button type="submit">Send Inquiry</button>
 </form>
 </section>
 
 <footer class="glass reveal-up">
-<p>⛰️ <strong>Digital Climbers</strong>, helping brands reach the summit.</p>
-<p style="opacity:0.8; margin-top:6px;">&copy; 2026 Digital Climbers. All rights reserved.</p>
+<p>🏡 <strong>ASAD Associates</strong>, your trusted property partner in Pakistan.</p>
+<p style="opacity:0.85; margin-top:6px;">Sale · Purchase · Rent · Construction</p>
+<p style="opacity:0.8; margin-top:6px;">&copy; 2026 ASAD Associates. All rights reserved.</p>
 </footer>
 
 <script>
-// Slide elements in when they scroll into view
 const observer = new IntersectionObserver((entries) => {
 entries.forEach((entry) => {
 if (entry.isIntersecting) {
@@ -335,11 +380,10 @@ const counter = entry.target.querySelector(".number");
 if (counter && !counter.dataset.done) { counter.dataset.done = "true"; countUp(counter); }
 }
 });
-}, { threshold: 0.2 });
+}, { threshold: 0.15 });
 
 document.querySelectorAll(".reveal-right, .reveal-left, .reveal-up, .reveal-zoom").forEach((el) => observer.observe(el));
 
-// Animated number counter
 function countUp(el) {
 const target = +el.dataset.target;
 let current = 0;
@@ -347,7 +391,7 @@ const step = Math.max(1, Math.ceil(target / 80));
 const timer = setInterval(() => {
 current += step;
 if (current >= target) { current = target; clearInterval(timer); }
-el.textContent = current + (target === 250 || target === 540 ? "+" : "");
+el.textContent = current + (target >= 100 ? "+" : "");
 }, 25);
 }
 </script>
